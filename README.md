@@ -3,8 +3,7 @@ persuasio: R module to estimate the effect of persuasion and conduct inference, 
 
 persuasio/
 │
-├── DESCRIPTION
-├── NAMESPACE
+│
 ├── R/
 │
 │   # 1. Main user interface
@@ -53,3 +52,9 @@ persuasio/
 │  
 │   # 9. Package utils
 │   zzz.R
+│
+├── man/
+├── tests/
+├── DESCRIPTION
+├── NAMESPACE
+└── README.md
