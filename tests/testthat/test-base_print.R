@@ -1,8 +1,10 @@
 test_that("print.aprlb works and returns invisibly", {
 
   df <- data.frame(
-    y = c(0, 1, 0, 1),
-    z = c(0, 1, 0, 1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- aprlb(df, "y", "z")
@@ -15,9 +17,10 @@ test_that("print.aprlb works and returns invisibly", {
 test_that("print.aprub works and returns invisibly", {
 
   df <- data.frame(
-    y = c(0, 1, 0, 1),
-    t = c(0, 1, 0, 1),
-    z = c(0, 1, 0, 1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- aprub(df, "y", "t", "z")
@@ -30,9 +33,10 @@ test_that("print.aprub works and returns invisibly", {
 test_that("print.lpr4ytz works and returns invisibly", {
 
   df <- data.frame(
-    y = c(0, 1, 0, 1),
-    t = c(0, 1, 0, 1),
-    z = c(0, 1, 0, 1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- lpr4ytz(df, "y", "t", "z")

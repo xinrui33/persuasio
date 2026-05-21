@@ -1,9 +1,10 @@
 test_that("persuasio4ytz returns structured result", {
 
   df <- data.frame(
-    y = c(0,1,0,1),
-    t = c(0,1,0,1),
-    z = c(0,1,0,1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- persuasio4ytz(df, "y", "t", "z")
@@ -17,8 +18,10 @@ test_that("persuasio4ytz returns structured result", {
 test_that("persuasio4yz returns scalar bound", {
 
   df <- data.frame(
-    y = c(0,1,0,1),
-    z = c(0,1,0,1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- persuasio4yz(df, "y", "z")
@@ -31,9 +34,10 @@ test_that("persuasio4yz returns scalar bound", {
 test_that("persuasio4ytz2lpr returns lpr estimate", {
 
   df <- data.frame(
-    y = c(0,1,0,1),
-    t = c(0,1,0,1),
-    z = c(0,1,0,1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- persuasio4ytz2lpr(df, "y", "t", "z")
@@ -45,9 +49,10 @@ test_that("persuasio4ytz2lpr returns lpr estimate", {
 test_that("persuasio wrapper routes to apr correctly", {
 
   df <- data.frame(
-    y = c(0,1,0,1),
-    t = c(0,1,0,1),
-    z = c(0,1,0,1)
+    y = c(1,0,1,0,1,0,1,0),
+    t = c(1,1,0,0,1,0,1,0),
+    z = c(1,1,1,1,0,0,0,0),
+    x1 = c(1,2,1,2,1,2,1,2)
   )
 
   res <- persuasio(

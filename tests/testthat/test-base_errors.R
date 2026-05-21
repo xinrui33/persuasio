@@ -1,8 +1,9 @@
 # shared toy dataset
 df <- data.frame(
-  y = c(0,1,0,1,0,1),
-  t = c(0,1,0,1,0,1),
-  z = c(0,0,1,1,0,1)
+  y = c(1,0,1,0,1,0,1,0),
+  t = c(1,1,0,0,1,0,1,0),
+  z = c(1,1,1,1,0,0,0,0),
+  x1 = c(1,2,1,2,1,2,1,2)
 )
 
 # 1. aprlb: non-binary outcome / instrument
@@ -68,7 +69,7 @@ test_that("aprlb handles invalid model argument", {
 
   expect_error(
     aprlb(df, "y", "t", "z", model = "not_a_model"),
-    NA
+    "should be one of"
   )
 })
 
@@ -76,7 +77,7 @@ test_that("aprub handles invalid model argument", {
 
   expect_error(
     aprub(df, "y", "t", "z", model = "not_a_model"),
-    NA
+    "should be one of"
   )
 })
 
@@ -84,6 +85,6 @@ test_that("lpr4ytz handles invalid model argument", {
 
   expect_error(
     lpr4ytz(df, "y", "t", "z", model = "not_a_model"),
-    NA
+    "should be one of"
   )
 })

@@ -1,8 +1,9 @@
-# minimal toy dataset (covers all required binary cases)
+# shared toy dataset
 df <- data.frame(
-  y = c(0,1,0,1,0,1),
-  t = c(0,1,0,1,0,1),
-  z = c(0,0,1,1,0,1)
+  y = c(1,0,1,0,1,0,1,0),
+  t = c(1,1,0,0,1,0,1,0),
+  z = c(1,1,1,1,0,0,0,0),
+  x1 = c(1,2,1,2,1,2,1,2)
 )
 
 
