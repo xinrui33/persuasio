@@ -43,6 +43,7 @@
 #' }
 #'
 #' @export
+
 persuasio <- function(est = c("apr", "lpr", "yz", "calc"),
                       varlist,
                       data,

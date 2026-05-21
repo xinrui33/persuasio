@@ -28,15 +28,8 @@ persuasio/
 │   # 5. Summary statistics calculator
 │   calc4persuasio.R
 │
-│
-│   # 6. Shared utilities
-│   utils_binary.R
-│   utils_matrix.R
-│   utils_bootstrap.R
-│   utils_clipping.R
-│
 │   
-│   # 7. Print methods
+│   # 6. Print methods
 │   aprlb_print.R
 │   aprub_print.R
 │   lpr4ytz_print.R
@@ -44,15 +37,6 @@ persuasio/
 │   persuasio4yz_print.R
 │   persuasio4ytz_print.R
 │
-│   
-│   # 8. Internal helpers
-│   internal_apr_sandwich.R
-│   internal_apr_engine.R
-│   internal_lpr_helpers.R
-│
-│  
-│   # 9. Package utils
-│   zzz.R
 │
 ├── man/
 ├── tests/

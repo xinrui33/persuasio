@@ -20,17 +20,17 @@ aprlb(data, y, z, x = NULL, model = "no_interaction", quiet = FALSE)
 \item{X}{optional character vector of covariates}
 }
 \value{
-A list containing:
-\describe{
-\item{lb_coef}{lower bound estimate}
-\item{lb_se}{standard error (NA if interaction model)}
-\item{ci_lb}{95\\% CI lower bound}
-\item{ci_ub}{95\\% CI upper bound}
-\item{outcome}{Y}
-\item{instrument}{Z}
-\item{covariates}{X}
-\item{model}{model used}
-\item{n}{sample size}
+A list with:
+\itemize{
+\item lb_coef lower bound estimate
+\item lb_se standard error (NA if interaction model)
+\item ci_lb 95\\% CI lower bound
+\item ci_ub 95\\% CI upper bound
+\item outcome Y variable name
+\item instrument Z variable name
+\item covariates X variables
+\item model model used
+\item n sample size
 }
 }
 \description{
@@ -38,7 +38,7 @@ Computes the lower bound of the Average Persuasion Rate using a linear probabili
 and sandwich (HC1) variance estimation.
 }
 \details{
-Supports two model specifications:
+Two model specifications are supported:
 \itemize{
 \item \code{no_interaction}: pooled regression with covariates
 \item \code{interaction}: separate regressions by instrument status

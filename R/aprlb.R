@@ -3,14 +3,13 @@
 #' Computes the lower bound of the Average Persuasion Rate using a linear probability model
 #' and sandwich (HC1) variance estimation.
 #'
-#' Supports two model specifications:
-#' \itemize{
-#'   \item \code{no_interaction}: pooled regression with covariates
-#'   \item \code{interaction}: separate regressions by instrument status
-#' }
+#' Two model specifications are supported:
 #'
-#' If \code{model = "interaction"} but \code{X = NULL}, the function falls back to
-#' \code{"no_interaction"} with a warning.
+#' - `no_interaction`: pooled regression with covariates
+#' - `interaction`: separate regressions by instrument status
+#'
+#' If `model = "interaction"` but `X = NULL`, the function falls back to
+#' `"no_interaction"` with a warning.
 #'
 #' @param data data.frame containing variables
 #' @param Y character, outcome variable (binary 0/1)
@@ -19,17 +18,17 @@
 #' @param model model specification: "no_interaction" or "interaction"
 #' @param quiet logical, suppress messages
 #'
-#' @return A list containing:
-#' \describe{
-#'   \item{lb_coef}{lower bound estimate}
-#'   \item{lb_se}{standard error (NA if interaction model)}
-#'   \item{ci_lb}{95\% CI lower bound}
-#'   \item{ci_ub}{95\% CI upper bound}
-#'   \item{outcome}{Y}
-#'   \item{instrument}{Z}
-#'   \item{covariates}{X}
-#'   \item{model}{model used}
-#'   \item{n}{sample size}
+#' @return A list with:
+#' \itemize{
+#'   \item lb_coef lower bound estimate
+#'   \item lb_se standard error (NA if interaction model)
+#'   \item ci_lb 95\% CI lower bound
+#'   \item ci_ub 95\% CI upper bound
+#'   \item outcome Y variable name
+#'   \item instrument Z variable name
+#'   \item covariates X variables
+#'   \item model model used
+#'   \item n sample size
 #' }
 #'
 #' @export
