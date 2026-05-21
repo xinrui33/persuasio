@@ -2,7 +2,8 @@
 % Please edit documentation in R/persuasio4yz.R
 \name{persuasio4yz}
 \alias{persuasio4yz}
-\title{Wrapper for Average Persuasion Rate (YZ Version)}
+\title{Conduct causal inference on persuasive effects for binary outcomes \emph{y} and
+binary instruments \emph{z}}
 \usage{
 persuasio4yz(
   data,
@@ -27,7 +28,8 @@ persuasio4yz(
 
 \item{x}{optional character vector of covariates}
 
-\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+\item{model}{model specification: \code{"no_interaction"} or
+\code{"interaction"}}
 
 \item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
 
@@ -65,15 +67,13 @@ combining lower and upper bound estimators (\code{aprlb} and \code{aprub})
 with inference via either normal approximation or bootstrap.
 }
 \details{
-This function is primarily designed for partially identified inference
-where both lower and upper bounds are estimated and joint uncertainty
-is accounted for.
-
-When \code{method = "normal"}, confidence intervals are constructed using
-a Stoye-style correction that accounts for dependence between lower and upper bounds.
+When \code{method = "normal"}, confidence intervals are constructed
+using a Stoye-style correction that accounts for dependence between lower and
+upper bounds.
 
 When \code{method = "bootstrap"}, inference is based on joint resampling of
 lower and upper bound estimators.
 
-If either bound has missing standard errors, the bootstrap method is recommended.
+If either bound has missing standard errors, the bootstrap method is
+recommended.
 }

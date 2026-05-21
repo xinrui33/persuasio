@@ -2,7 +2,8 @@
 % Please edit documentation in R/persuasio4ytz2lpr.R
 \name{persuasio4ytz2lpr}
 \alias{persuasio4ytz2lpr}
-\title{Local Persuasion Rate Inference Wrapper}
+\title{Conduct causal inference on the local persuasion rate for binary outcomes
+\emph{y}, binary treatments \emph{t} and binary instruments \emph{z}}
 \usage{
 persuasio4ytz2lpr(
   data,
@@ -31,7 +32,8 @@ persuasio4ytz2lpr(
 
 \item{level}{confidence level (default 0.95)}
 
-\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+\item{model}{model specification: \code{"no_interaction"} or
+\code{"interaction"}}
 
 \item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
 
@@ -69,8 +71,8 @@ This wrapper calls \code{lpr4ytz()} for point estimation and then performs
 inference based on the selected method.
 
 For \code{method = "normal"}, the confidence interval is based on a
-standard normal approximation using the delta-method standard error
-from \code{lpr4ytz()}.
+standard normal approximation using the delta-method standard error from
+\code{lpr4ytz()}.
 
 For \code{method = "bootstrap"}, the interval is computed using empirical
 quantiles of bootstrap replications.

@@ -2,7 +2,8 @@
 % Please edit documentation in R/persuasio4ytz.R
 \name{persuasio4ytz}
 \alias{persuasio4ytz}
-\title{Average Persuasion Rate Inference}
+\title{Conduct causal inference on persuasion effects for binary outcomes \emph{y},
+binary treatments \emph{t} and binary instruments \emph{z}}
 \usage{
 persuasio4ytz(
   data,
@@ -31,7 +32,8 @@ persuasio4ytz(
 
 \item{level}{confidence level (default 0.95)}
 
-\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+\item{model}{model specification: \code{"no_interaction"} or
+\code{"interaction"}}
 
 \item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
 
@@ -61,8 +63,8 @@ An object of class \code{persuasio4ytz} containing:
 }
 }
 \description{
-Estimates the Average Persuasion Rate (APR) and constructs confidence intervals
-using either asymptotic normal approximation or bootstrap methods.
+Estimates the Average Persuasion Rate (APR) and constructs confidence
+intervals using either asymptotic normal approximation or bootstrap methods.
 }
 \details{
 This function combines:
@@ -72,9 +74,9 @@ This function combines:
 \item inference using either Stoye-style normal approximation or bootstrap
 }
 
-If \code{method = "normal"}, the function uses a Stoye (2009)-style correction
-for partially identified parameters. Standard errors must be available from
-both \code{aprlb()} and \code{aprub()}.
+If \code{method = "normal"}, the function uses a Stoye (2009)-style
+correction for partially identified parameters. Standard errors must be
+available from both \code{aprlb()} and \code{aprub()}.
 
 If \code{method = "bootstrap"}, inference is based on empirical quantiles
 from resampled estimates.

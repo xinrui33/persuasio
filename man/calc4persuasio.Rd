@@ -2,7 +2,8 @@
 % Please edit documentation in R/calc4persuasio.R
 \name{calc4persuasio}
 \alias{calc4persuasio}
-\title{Calculate the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available}
+\title{Calculate the effect of persuasion when information on Pr(y=1|z) and
+optimally Pr(t=1|z) for each z=0,1 is available}
 \usage{
 calc4persuasio(y1, y0, e1 = NULL, e0 = NULL)
 }
@@ -17,16 +18,18 @@ calc4persuasio(y1, y0, e1 = NULL, e0 = NULL)
 }
 \value{
 An object of class \code{calc4persuasio}, a list containing:
-\item{apr}{numeric vector: lower and upper bound}
-\item{lpr}{numeric vector: lower and upper bound}
-\item{inputs}{input values}
-\item{case}{case identifier}
+\item{apr}{numeric vector: lower and upper bound} \item{lpr}{numeric
+vector: lower and upper bound} \item{inputs}{input values} \item{case}{case
+identifier}
 }
 \description{
-\strong{calc4persuasio} calculates the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available.
-The inputs are y1, y0, e1, and e0, corresponding to estimates of
-\eqn{P(y=1 \mid z=1)}, \eqn{P(y=1 \mid z=0)},
-\eqn{P(t=1 \mid z=1)}, and \eqn{P(t=1 \mid z=0)}.
-
-The outputs of this command are the lower and upper bounds on the average persuasion rate (APR) as well as the lower and upper bounds on the local persuasion rate (LPR).
+\strong{calc4persuasio} calculates the effect of persuasion when information on
+Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available. The inputs are
+y1, y0, e1, and e0, corresponding to estimates of \eqn{P(y=1 \mid z=1)},
+\eqn{P(y=1 \mid z=0)}, \eqn{P(t=1 \mid z=1)}, and \eqn{P(t=1 \mid z=0)}.
+}
+\details{
+The outputs of this command are the lower and upper bounds on the average
+persuasion rate (APR) as well as the lower and upper bounds on the local
+persuasion rate (LPR).
 }

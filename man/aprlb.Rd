@@ -2,48 +2,46 @@
 % Please edit documentation in R/aprlb.R
 \name{aprlb}
 \alias{aprlb}
-\title{Lower Bound of Average Persuasion Rate}
+\title{Estimate the lower bound on the average persuasion rate}
 \usage{
-aprlb(data, y, z, x = NULL, model = "no_interaction", quiet = FALSE)
+aprlb(data, y, z, x = NULL, model = "no_interaction")
 }
 \arguments{
 \item{data}{data.frame containing variables}
 
+\item{y}{outcome, outcome variable (binary 0/1)}
+
+\item{z}{instrument, instrument variable (binary 0/1)}
+
+\item{x}{optional covariates, if they exist}
+
 \item{model}{model specification: "no_interaction" or "interaction"}
-
-\item{quiet}{logical, suppress messages}
-
-\item{Y}{character, outcome variable (binary 0/1)}
-
-\item{Z}{character, instrument variable (binary 0/1)}
-
-\item{X}{optional character vector of covariates}
 }
 \value{
 A list with:
 \itemize{
-\item lb_coef lower bound estimate
-\item lb_se standard error (NA if interaction model)
-\item ci_lb 95\\% CI lower bound
-\item ci_ub 95\\% CI upper bound
-\item outcome Y variable name
-\item instrument Z variable name
-\item covariates X variables
-\item model model used
-\item n sample size
+\item \code{lb_coef}: Lower bound estimate of the Average Persuasion Rate
+\item \code{lb_se}: Standard error of the estimate (NA under interaction model)
+\item \code{ci_lb}: Lower bound of the 95\\% confidence interval
+\item \code{ci_ub}: Upper bound of the 95\\% confidence interval
+\item \code{outcome}: Outcome variable name
+\item \code{instrument}: Instrument variable name
+\item \code{covariates}: Covariates used in estimation
+\item \code{model}: Model specification used
+\item \code{n}: Sample size
+\item \code{class}: S3 class label ("aprub")
 }
 }
 \description{
-Computes the lower bound of the Average Persuasion Rate using a linear probability model
-and sandwich (HC1) variance estimation.
+\strong{aprlb} estimates the lower bound on the average persuasion rate (APR).
+\emph{varlist} should include \emph{depvar} \emph{instrvar} \emph{covariates} in order. Here,
+\emph{depvar} is binary outcomes (\emph{y}), \emph{instrvar} is binary instruments (\emph{z}),
+and \emph{covariates} (\emph{x}) are optional.
 }
 \details{
-Two model specifications are supported:
-\itemize{
-\item \code{no_interaction}: pooled regression with covariates
-\item \code{interaction}: separate regressions by instrument status
-}
+There are two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are
+present.
 
-If \code{model = "interaction"} but \code{X = NULL}, the function falls back to
-\code{"no_interaction"} with a warning.
+With covariates, there are two model specifications: \code{no_interaction}and
+\code{interaction}.
 }

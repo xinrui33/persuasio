@@ -2,7 +2,7 @@
 % Please edit documentation in R/lpr4ytz.R
 \name{lpr4ytz}
 \alias{lpr4ytz}
-\title{Local Persuasion Rate (LPR)}
+\title{Estimate the local persuasion rate}
 \usage{
 lpr4ytz(data, y, t, z, x = NULL, model = "no_interaction")
 }
@@ -20,8 +20,26 @@ lpr4ytz(data, y, t, z, x = NULL, model = "no_interaction")
 \item{model}{"no_interaction" or "interaction"}
 }
 \value{
-A list of class \code{lpr4ytz}
+A list with:
+\itemize{
+\item \code{lpr}: Estimated Local Persuasion Rate
+\item \code{se}: Standard error of the estimate (NA under interaction model)
+\item \code{ci_lb}: Lower bound of the confidence interval
+\item \code{ci_ub}: Upper bound of the confidence interval
+\item \code{n}: Sample size
+\item \code{outcome}: Outcome variable name
+\item \code{treatment}: Treatment variable name
+\item \code{instrument}: Instrument variable name
+\item \code{covariates}: Covariates used in estimation
+\item \code{model}: Model specification used
+\item \code{case}: Estimation case used ("interaction" or "no_interaction")
+\item \code{class}: S3 class label ("lpr4ytz")
+}
 }
 \description{
-Estimates the Local Persuasion Rate using binary outcome, treatment, and instrument.
+\strong{lpr4ytz} estimates the local persuasion rate (LPR). \emph{varlist} should
+include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in order. Here, \emph{depvar}
+is binary outcomes (\emph{y}), \emph{treatrvar} is binary treatments (\emph{t}), \emph{instrvar}
+is binary instruments (\emph{z}), and \emph{covariates} (\emph{x}) are optional. There are
+two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are present.
 }

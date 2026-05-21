@@ -2,7 +2,7 @@
 % Please edit documentation in R/persuasio.R
 \name{persuasio}
 \alias{persuasio}
-\title{Unified Interface for Persuasion Rate Estimation}
+\title{Conduct causal inference on persuasive effects}
 \usage{
 persuasio(
   est = c("apr", "lpr", "yz", "calc"),
@@ -22,12 +22,12 @@ persuasio(
 }}
 
 \item{varlist}{character vector of variable names in the order:
-\code{c(Y, T, Z, X1, X2, ...)} where:
+\code{c(y, t, z, x, ...)} where:
 \itemize{
-\item Y = outcome
-\item T = treatment
-\item Z = instrument
-\item X = optional covariates
+\item y = outcome
+\item t = treatment
+\item z = instrument
+\item x = optional covariates
 }}
 
 \item{data}{data.frame containing all variables}

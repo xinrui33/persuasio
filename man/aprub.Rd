@@ -2,61 +2,50 @@
 % Please edit documentation in R/aprub.R
 \name{aprub}
 \alias{aprub}
-\title{Upper Bound of Average Persuasion Rate}
+\title{Estimate the upper bound on the average persuasion rate}
 \usage{
 aprub(data, y, t, z, x = NULL, model = "no_interaction")
 }
 \arguments{
 \item{data}{data.frame containing variables}
 
-\item{model}{character. Either "no_interaction" or "interaction"}
+\item{y}{outcome, outcome variable (binary 0/1)}
 
-\item{Y}{character. Binary outcome variable name (0/1)}
+\item{t}{treatment. treatment variable (binary 0/1)}
 
-\item{T}{character. Binary treatment variable name (0/1)}
+\item{z}{instrument, instrument variable (binary 0/1)}
 
-\item{Z}{character. Binary instrument variable name (0/1)}
+\item{x}{optional covariates, if they exist}
 
-\item{X}{optional character vector of covariate names}
+\item{model}{model specification: "no_interaction" or "interaction"}
 }
 \value{
 A list with:
-\describe{
-\item{ub_coef}{Upper bound estimate of APR}
-\item{ub_se}{Standard error (NA if covariates are used)}
-\item{ci_lb}{Lower bound of 95\% CI (NA if covariates used)}
-\item{ci_ub}{Upper bound of 95\% CI (NA if covariates used)}
-\item{outcome}{Outcome variable name}
-\item{treatment}{Treatment variable name}
-\item{instrument}{Instrument variable name}
-\item{covariates}{Covariates used (if any)}
-\item{model}{Model specification}
-\item{n}{Sample size}
-\item{class}{S3 class label ("aprub")}
+\itemize{
+\item \code{ub_coef}: Upper bound estimate of APR
+\item \code{ub_se}: Standard error (NA if covariates are used)
+\item \code{ci_lb}: Lower bound of 95\\% CI (NA if covariates used)
+\item \code{ci_ub}: Upper bound of 95\\% CI (NA if covariates used)
+\item \code{outcome}: Outcome variable name
+\item \code{treatment}: Treatment variable name
+\item \code{instrument}: Instrument variable name
+\item \code{covariates}: Covariates used (if any)
+\item \code{model}: Model specification
+\item \code{n}: Sample size
+\item \code{class}: S3 class label ("aprub")
 }
 }
 \description{
-Computes the upper bound of the Average Persuasion Rate (APR) under binary outcome
-and binary instrument settings, with optional covariates.
+\strong{aprub} estimates the upper bound on the average persuasion rate (APR).
+\emph{varlist} should include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in
+order. Here, \emph{depvar} is binary outcomes (\emph{y}), \emph{treatrvar} is binary
+treatment (\emph{t}), \emph{instrvar} is binary instruments (\emph{z}), and \emph{covariates}
+(\emph{x}) are optional.
 }
 \details{
-The estimator follows a two-case structure:
-\itemize{
-\item No covariates / no interaction: closed-form sandwich estimator with delta method SE.
-\item Covariates + interaction: plug-in regression-based bounds (no analytic SE).
-}
+There are two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are
+present.
 
-This function implements the upper bound derived in the persuasion rate framework.
-When covariates are included, the estimator relies on a plug-in regression approach,
-and standard errors are not currently implemented.
-}
-\examples{
-data <- data.frame(
-  y = c(0,1,0,1),
-  t = c(0,1,0,1),
-  z = c(0,1,0,1)
-)
-
-aprub(data, "y", "t", "z")
-
+With covariates, there are two model specifications: \code{no_interaction}and
+\code{interaction}.
 }
