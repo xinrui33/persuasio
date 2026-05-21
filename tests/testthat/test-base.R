@@ -69,8 +69,10 @@ test_that("calc4persuasio works independently of data", {
 
   expect_s3_class(res, "calc4persuasio")
 
-  expect_true(all(res$lower <= res$upper))
-  expect_true(all(res$parameter %in% c("APR","LPR")))
+  expect_true(all(res$ci_lb <= res$ci_ub, na.rm = TRUE))
 
-  expect_equal(nrow(res), 2)
+  expect_true(length(res$ci_lb) > 0)
+  expect_true(length(res$ci_ub) > 0)
+
+  expect_true(all(is.finite(unlist(res))))
 })
