@@ -1,7 +1,10 @@
 #' @title Calculate the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available
 #'
 #' @description
-#' __calc4persuasio__ calculates the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available. The inputs to this command are _y1_, _y0_, _e1_ and _e0_. They are all scalarsand refer to the estimates of Pr({it:y}=1|{it:z}=1), Pr({it:y}=1|{it:z}=0), Pr({it:t}=1|{it:z}=1), and Pr({it:t}=1|{it:z}=0), where ({it:y}, {it:t}, {it:z}) are binary outcomes, binary treatments, and binary instruments, respectively.
+#' __calc4persuasio__ calculates the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available.
+#' The inputs are y1, y0, e1, and e0, corresponding to estimates of
+#' \eqn{P(y=1 \mid z=1)}, \eqn{P(y=1 \mid z=0)},
+#' \eqn{P(t=1 \mid z=1)}, and \eqn{P(t=1 \mid z=0)}.
 #'
 #' The outputs of this command are the lower and upper bounds on the average persuasion rate (APR) as well as the lower and upper bounds on the local persuasion rate (LPR).
 #'
@@ -37,7 +40,7 @@ calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
   has_exposure <- !is.null(e1) && !is.null(e0)
 
   # 3. computation
-  if (has_wzposure) {
+  if (has_exposure) {
 
     # APR lower bound
     apr_lb <- (y1 - y0) / (1 - y0)
