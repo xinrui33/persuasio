@@ -1,5 +1,6 @@
 #' Print method for persuasio4yz
-#'
+#' @param x object of class "persuasio4yz"
+#' @param ... unused
 #' @export
 print.persuasio4yz <- function(x, ...) {
 

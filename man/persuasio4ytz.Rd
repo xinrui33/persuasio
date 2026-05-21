@@ -18,6 +18,64 @@ persuasio4ytz(
   subset = NULL
 )
 }
+\arguments{
+\item{data}{data.frame containing variables}
+
+\item{y}{character, outcome variable name (binary 0/1)}
+
+\item{t}{character, treatment variable name (binary 0/1)}
+
+\item{z}{character, instrument variable name (binary 0/1)}
+
+\item{x}{optional character vector of covariates}
+
+\item{level}{confidence level (default 0.95)}
+
+\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+
+\item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
+
+\item{nboot}{number of bootstrap replications (default 50)}
+
+\item{title}{optional title for printed output}
+
+\item{subset}{optional index or logical vector for subsetting data}
+}
+\value{
+An object of class \code{persuasio4ytz} containing:
+\describe{
+\item{lb_coef}{lower bound estimate}
+\item{ub_coef}{upper bound estimate}
+\item{ci_lb}{lower confidence bound}
+\item{ci_ub}{upper confidence bound}
+\item{level}{confidence level}
+\item{method}{inference method used}
+\item{n}{sample size}
+\item{outcome}{Y variable name}
+\item{treatment}{T variable name}
+\item{instrument}{Z variable name}
+\item{covariates}{covariates used}
+\item{model}{model specification}
+\item{nboot}{number of bootstrap draws (if applicable)}
+\item{title}{optional title}
+}
+}
 \description{
-Main wrapper for estimating APR bounds and inference.
+Estimates the Average Persuasion Rate (APR) and constructs confidence intervals
+using either asymptotic normal approximation or bootstrap methods.
+}
+\details{
+This function combines:
+\itemize{
+\item lower bound estimation via \code{aprlb()}
+\item upper bound estimation via \code{aprub()}
+\item inference using either Stoye-style normal approximation or bootstrap
+}
+
+If \code{method = "normal"}, the function uses a Stoye (2009)-style correction
+for partially identified parameters. Standard errors must be available from
+both \code{aprlb()} and \code{aprub()}.
+
+If \code{method = "bootstrap"}, inference is based on empirical quantiles
+from resampled estimates.
 }

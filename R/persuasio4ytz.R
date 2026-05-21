@@ -1,6 +1,52 @@
 #' Average Persuasion Rate Inference
 #'
-#' Main wrapper for estimating APR bounds and inference.
+#' Estimates the Average Persuasion Rate (APR) and constructs confidence intervals
+#' using either asymptotic normal approximation or bootstrap methods.
+#'
+#' This function combines:
+#' \itemize{
+#'   \item lower bound estimation via \code{aprlb()}
+#'   \item upper bound estimation via \code{aprub()}
+#'   \item inference using either Stoye-style normal approximation or bootstrap
+#' }
+#'
+#' @param data data.frame containing variables
+#' @param y character, outcome variable name (binary 0/1)
+#' @param t character, treatment variable name (binary 0/1)
+#' @param z character, instrument variable name (binary 0/1)
+#' @param x optional character vector of covariates
+#' @param level confidence level (default 0.95)
+#' @param model model specification: \code{"no_interaction"} or \code{"interaction"}
+#' @param method inference method: \code{"normal"} or \code{"bootstrap"}
+#' @param nboot number of bootstrap replications (default 50)
+#' @param title optional title for printed output
+#' @param subset optional index or logical vector for subsetting data
+#'
+#' @return An object of class \code{persuasio4ytz} containing:
+#' \describe{
+#'   \item{lb_coef}{lower bound estimate}
+#'   \item{ub_coef}{upper bound estimate}
+#'   \item{ci_lb}{lower confidence bound}
+#'   \item{ci_ub}{upper confidence bound}
+#'   \item{level}{confidence level}
+#'   \item{method}{inference method used}
+#'   \item{n}{sample size}
+#'   \item{outcome}{Y variable name}
+#'   \item{treatment}{T variable name}
+#'   \item{instrument}{Z variable name}
+#'   \item{covariates}{covariates used}
+#'   \item{model}{model specification}
+#'   \item{nboot}{number of bootstrap draws (if applicable)}
+#'   \item{title}{optional title}
+#' }
+#'
+#' @details
+#' If \code{method = "normal"}, the function uses a Stoye (2009)-style correction
+#' for partially identified parameters. Standard errors must be available from
+#' both \code{aprlb()} and \code{aprub()}.
+#'
+#' If \code{method = "bootstrap"}, inference is based on empirical quantiles
+#' from resampled estimates.
 #'
 #' @export
 persuasio4ytz <- function(data, y, t, z, x = NULL,

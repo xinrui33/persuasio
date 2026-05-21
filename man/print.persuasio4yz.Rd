@@ -6,6 +6,11 @@
 \usage{
 \method{print}{persuasio4yz}(x, ...)
 }
+\arguments{
+\item{x}{object of class "persuasio4yz"}
+
+\item{...}{unused}
+}
 \description{
 Print method for persuasio4yz
 }

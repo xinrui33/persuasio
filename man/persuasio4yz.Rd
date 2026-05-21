@@ -2,7 +2,7 @@
 % Please edit documentation in R/persuasio4yz.R
 \name{persuasio4yz}
 \alias{persuasio4yz}
-\title{Wrapper for Average Persuasion Rate (YZ version)}
+\title{Wrapper for Average Persuasion Rate (YZ Version)}
 \usage{
 persuasio4yz(
   data,
@@ -18,6 +18,62 @@ persuasio4yz(
   seed = NULL
 )
 }
+\arguments{
+\item{data}{data.frame containing variables}
+
+\item{y}{character, outcome variable name (binary 0/1)}
+
+\item{z}{character, instrument variable name (binary 0/1)}
+
+\item{x}{optional character vector of covariates}
+
+\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+
+\item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
+
+\item{level}{confidence level (default 0.95)}
+
+\item{nboot}{number of bootstrap replications (default 50)}
+
+\item{title}{optional title for output display}
+
+\item{subset}{optional index or logical vector for subsetting data}
+
+\item{seed}{optional random seed for bootstrap reproducibility}
+}
+\value{
+An object of class \code{persuasio4yz} containing:
+\describe{
+\item{lb_coef}{lower bound estimate}
+\item{ub_coef}{upper bound estimate}
+\item{ci_lb}{lower confidence bound}
+\item{ci_ub}{upper confidence bound}
+\item{level}{confidence level}
+\item{method}{inference method used}
+\item{n}{sample size}
+\item{outcome}{Y variable name}
+\item{instrument}{Z variable name}
+\item{covariates}{covariates used}
+\item{model}{model specification}
+\item{nboot}{number of bootstrap replications (if applicable)}
+\item{title}{optional title}
+}
+}
 \description{
-Wrapper for Average Persuasion Rate (YZ version)
+Computes bounds for the Average Persuasion Rate using the YZ formulation,
+combining lower and upper bound estimators (\code{aprlb} and \code{aprub})
+with inference via either normal approximation or bootstrap.
+}
+\details{
+This function is primarily designed for partially identified inference
+where both lower and upper bounds are estimated and joint uncertainty
+is accounted for.
+
+When \code{method = "normal"}, confidence intervals are constructed using
+a Stoye-style correction that accounts for dependence between lower and upper bounds.
+
+When \code{method = "bootstrap"}, inference is based on joint resampling of
+lower and upper bound estimators.
+
+If either bound has missing standard errors, the bootstrap method is recommended.
 }

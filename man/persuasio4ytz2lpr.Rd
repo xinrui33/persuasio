@@ -18,6 +18,63 @@ persuasio4ytz2lpr(
   seed = NULL
 )
 }
+\arguments{
+\item{data}{data.frame containing variables}
+
+\item{y}{character, outcome variable name (binary 0/1)}
+
+\item{t}{character, treatment variable name (binary 0/1)}
+
+\item{z}{character, instrument variable name (binary 0/1)}
+
+\item{x}{optional character vector of covariates}
+
+\item{level}{confidence level (default 0.95)}
+
+\item{model}{model specification: \code{"no_interaction"} or \code{"interaction"}}
+
+\item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
+
+\item{nboot}{number of bootstrap replications (default 50)}
+
+\item{title}{optional title for printed output}
+
+\item{seed}{optional random seed for bootstrap reproducibility}
+}
+\value{
+An object of class \code{persuasio4ytz2lpr} containing:
+\describe{
+\item{lpr}{local persuasion rate estimate}
+\item{ci_lb}{lower confidence bound}
+\item{ci_ub}{upper confidence bound}
+\item{se}{standard error (NA if bootstrap)}
+\item{level}{confidence level}
+\item{method}{inference method used}
+\item{n}{sample size}
+\item{outcome}{Y variable name}
+\item{treatment}{T variable name}
+\item{instrument}{Z variable name}
+\item{covariates}{covariates used}
+\item{model}{model specification}
+\item{nboot}{number of bootstrap replications (if applicable)}
+\item{title}{optional title}
+}
+}
 \description{
-Wrapper for LPR estimation and inference.
+Computes the Local Persuasion Rate (LPR) and constructs confidence intervals
+using either asymptotic normal approximation or bootstrap methods.
+}
+\details{
+This wrapper calls \code{lpr4ytz()} for point estimation and then performs
+inference based on the selected method.
+
+For \code{method = "normal"}, the confidence interval is based on a
+standard normal approximation using the delta-method standard error
+from \code{lpr4ytz()}.
+
+For \code{method = "bootstrap"}, the interval is computed using empirical
+quantiles of bootstrap replications.
+
+When \code{se = NA}, the normal approximation is not available and the
+bootstrap method should be used.
 }

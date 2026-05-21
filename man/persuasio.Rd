@@ -2,7 +2,7 @@
 % Please edit documentation in R/persuasio.R
 \name{persuasio}
 \alias{persuasio}
-\title{Main persuasio dispatcher}
+\title{Unified Interface for Persuasion Rate Estimation}
 \usage{
 persuasio(
   est = c("apr", "lpr", "yz", "calc"),
@@ -12,6 +12,50 @@ persuasio(
   ...
 )
 }
+\arguments{
+\item{est}{character. Type of estimator:
+\itemize{
+\item \code{"apr"}: Average Persuasion Rate bounds (\code{persuasio4ytz})
+\item \code{"lpr"}: Local Persuasion Rate (\code{persuasio4ytz2lpr})
+\item \code{"yz"}: Reduced-form persuasion bound (\code{persuasio4yz})
+\item \code{"calc"}: Direct plug-in calculation (\code{calc4persuasio})
+}}
+
+\item{varlist}{character vector of variable names in the order:
+\code{c(Y, T, Z, X1, X2, ...)} where:
+\itemize{
+\item Y = outcome
+\item T = treatment
+\item Z = instrument
+\item X = optional covariates
+}}
+
+\item{data}{data.frame containing all variables}
+
+\item{subset}{optional logical or index vector for subsetting data}
+
+\item{...}{additional arguments passed to downstream estimators}
+}
+\value{
+A list or data.frame depending on \code{est}:
+\itemize{
+\item APR / LPR / YZ: model-based estimation results
+\item CALC: closed-form moment-based bounds
+}
+}
 \description{
-Main persuasio dispatcher
+Main wrapper function for the persuasio package. Provides a unified entry point
+to different estimators of persuasion-related causal parameters, including:
+Average Persuasion Rate (APR), Local Persuasion Rate (LPR), and reduced-form
+bounds based on summary moments.
+}
+\details{
+The function routes to different estimators depending on \code{est}.
+
+This function does not perform estimation itself. It only:
+\enumerate{
+\item Parses variable inputs
+\item Applies optional subsetting
+\item Routes to the appropriate estimator
+}
 }
