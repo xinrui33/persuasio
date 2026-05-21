@@ -4,20 +4,20 @@
 \alias{aprlb}
 \title{Lower Bound of Average Persuasion Rate}
 \usage{
-aprlb(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
+aprlb(data, y, z, x = NULL, model = "no_interaction", quiet = FALSE)
 }
 \arguments{
 \item{data}{data.frame containing variables}
+
+\item{model}{model specification: "no_interaction" or "interaction"}
+
+\item{quiet}{logical, suppress messages}
 
 \item{Y}{character, outcome variable (binary 0/1)}
 
 \item{Z}{character, instrument variable (binary 0/1)}
 
 \item{X}{optional character vector of covariates}
-
-\item{model}{model specification: "no_interaction" or "interaction"}
-
-\item{quiet}{logical, suppress messages}
 }
 \value{
 A list containing:

@@ -4,10 +4,12 @@
 \alias{aprub}
 \title{Upper Bound of Average Persuasion Rate}
 \usage{
-aprub(data, Y, T, Z, X = NULL, model = "no_interaction")
+aprub(data, y, t, z, x = NULL, model = "no_interaction")
 }
 \arguments{
 \item{data}{data.frame containing variables}
+
+\item{model}{character. Either "no_interaction" or "interaction"}
 
 \item{Y}{character. Binary outcome variable name (0/1)}
 
@@ -16,8 +18,6 @@ aprub(data, Y, T, Z, X = NULL, model = "no_interaction")
 \item{Z}{character. Binary instrument variable name (0/1)}
 
 \item{X}{optional character vector of covariate names}
-
-\item{model}{character. Either "no_interaction" or "interaction"}
 }
 \value{
 A list with:
