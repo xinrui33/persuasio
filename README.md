@@ -37,12 +37,12 @@ persuasio/
 │
 │   
 │   # 7. Print methods
-│   print_aprlb.R
-│   print_aprub.R
-│   print_lpr4ytz.R
-│   print_calc4persuasio.R
-│   print_persuasio4yz.R
-│   print_persuasio4ytz.R
+│   aprlb_print.R
+│   aprub_print.R
+│   lpr4ytz_print.R
+│   calc4persuasio_print.R
+│   persuasio4yz_print.R
+│   persuasio4ytz_print.R
 │
 │   
 │   # 8. Internal helpers
