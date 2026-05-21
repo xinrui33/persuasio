@@ -2,10 +2,48 @@
 % Please edit documentation in R/aprlb.R
 \name{aprlb}
 \alias{aprlb}
-\title{Lower bound of Average Persuasion Rate}
+\title{Lower Bound of Average Persuasion Rate}
 \usage{
 aprlb(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
 }
+\arguments{
+\item{data}{data.frame containing variables}
+
+\item{Y}{character, outcome variable (binary 0/1)}
+
+\item{Z}{character, instrument variable (binary 0/1)}
+
+\item{X}{optional character vector of covariates}
+
+\item{model}{model specification: "no_interaction" or "interaction"}
+
+\item{quiet}{logical, suppress messages}
+}
+\value{
+A list containing:
+\describe{
+\item{lb_coef}{lower bound estimate}
+\item{lb_se}{standard error (NA if interaction model)}
+\item{ci_lb}{95\\% CI lower bound}
+\item{ci_ub}{95\\% CI upper bound}
+\item{outcome}{Y}
+\item{instrument}{Z}
+\item{covariates}{X}
+\item{model}{model used}
+\item{n}{sample size}
+}
+}
 \description{
-Lower bound of Average Persuasion Rate
+Computes the lower bound of the Average Persuasion Rate using a linear probability model
+and sandwich (HC1) variance estimation.
+}
+\details{
+Supports two model specifications:
+\itemize{
+\item \code{no_interaction}: pooled regression with covariates
+\item \code{interaction}: separate regressions by instrument status
+}
+
+If \code{model = "interaction"} but \code{X = NULL}, the function falls back to
+\code{"no_interaction"} with a warning.
 }

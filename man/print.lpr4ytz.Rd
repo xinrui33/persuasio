@@ -6,6 +6,11 @@
 \usage{
 \method{print}{lpr4ytz}(x, ...)
 }
+\arguments{
+\item{x}{object of class "calc4persuasio"}
+
+\item{...}{unused}
+}
 \description{
 Print method for lpr4ytz objects
 }

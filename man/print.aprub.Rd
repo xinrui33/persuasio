@@ -6,6 +6,11 @@
 \usage{
 \method{print}{aprub}(x, ...)
 }
+\arguments{
+\item{x}{object of class "aprub"}
+
+\item{...}{unused}
+}
 \description{
 Print method for aprub objects
 }

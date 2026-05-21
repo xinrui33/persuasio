@@ -6,6 +6,11 @@
 \usage{
 \method{print}{aprlb}(x, ...)
 }
+\arguments{
+\item{x}{object of class "aprlb"}
+
+\item{...}{unused}
+}
 \description{
 Print method for aprlb objects
 }

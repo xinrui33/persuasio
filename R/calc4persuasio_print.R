@@ -1,5 +1,6 @@
-#' @title Print method for calc4persuasio
-#'
+#' Print method for calc4persuasio
+#' @param x object of class "calc4persuasio"
+#' @param ... unused
 #' @export
 
 print.calc4persuasio <- function(x, ...) {

@@ -1,5 +1,6 @@
 #' Print method for lpr4ytz objects
-#'
+#' @param x object of class "calc4persuasio"
+#' @param ... unused
 #' @export
 print.lpr4ytz <- function(x, ...) {
 

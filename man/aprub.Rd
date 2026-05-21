@@ -2,10 +2,61 @@
 % Please edit documentation in R/aprub.R
 \name{aprub}
 \alias{aprub}
-\title{Upper bound of Average Persuasion Rate}
+\title{Upper Bound of Average Persuasion Rate}
 \usage{
 aprub(data, Y, T, Z, X = NULL, model = "no_interaction")
 }
+\arguments{
+\item{data}{data.frame containing variables}
+
+\item{Y}{character. Binary outcome variable name (0/1)}
+
+\item{T}{character. Binary treatment variable name (0/1)}
+
+\item{Z}{character. Binary instrument variable name (0/1)}
+
+\item{X}{optional character vector of covariate names}
+
+\item{model}{character. Either "no_interaction" or "interaction"}
+}
+\value{
+A list with:
+\describe{
+\item{ub_coef}{Upper bound estimate of APR}
+\item{ub_se}{Standard error (NA if covariates are used)}
+\item{ci_lb}{Lower bound of 95\% CI (NA if covariates used)}
+\item{ci_ub}{Upper bound of 95\% CI (NA if covariates used)}
+\item{outcome}{Outcome variable name}
+\item{treatment}{Treatment variable name}
+\item{instrument}{Instrument variable name}
+\item{covariates}{Covariates used (if any)}
+\item{model}{Model specification}
+\item{n}{Sample size}
+\item{class}{S3 class label ("aprub")}
+}
+}
 \description{
-Upper bound of Average Persuasion Rate
+Computes the upper bound of the Average Persuasion Rate (APR) under binary outcome
+and binary instrument settings, with optional covariates.
+}
+\details{
+The estimator follows a two-case structure:
+\itemize{
+\item No covariates / no interaction: closed-form sandwich estimator with delta method SE.
+\item Covariates + interaction: plug-in regression-based bounds (no analytic SE).
+}
+
+This function implements the upper bound derived in the persuasion rate framework.
+When covariates are included, the estimator relies on a plug-in regression approach,
+and standard errors are not currently implemented.
+}
+\examples{
+data <- data.frame(
+  y = c(0,1,0,1),
+  t = c(0,1,0,1),
+  z = c(0,1,0,1)
+)
+
+aprub(data, "y", "t", "z")
+
 }
