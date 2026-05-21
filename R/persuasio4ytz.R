@@ -99,11 +99,11 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
     ci_lb <- lb_coef - cv_star * lb_se
     ci_ub <- ub_coef + cv_star * ub_se
 
-    result <- list(
-      lb_coef = lb_coef,
-      ub_coef = ub_coef,
-      ci_lb = ci_lb,
-      ci_ub = ci_ub,
+    res <- list(
+      lb_coef = as.numeric(lb_coef),
+      ub_coef = as.numeric(ub_coef),
+      ci_lb = as.numeric(ci_lb),
+      ci_ub = as.numeric(ci_ub),
       level = level,
       method = "normal",
       n = n,
@@ -114,6 +114,9 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
       model = model,
       title = title
     )
+
+    class(res) <- "persuasio4ytz"
+    return(res)
   }
 
   # CASE 2: BOOTSTRAP
@@ -142,7 +145,7 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
     ci_lb <- quantile(lb_boot, probs = alpha)
     ci_ub <- quantile(ub_boot, probs = 1 - alpha)
 
-    result <- list(
+    res <- list(
       lb_coef = lb_coef,
       ub_coef = ub_coef,
       ci_lb = ci_lb,
@@ -160,7 +163,6 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
     )
   }
 
-  # attach class
-  class(result) <- "persuasio4ytz"
-  return(result)
+  class(res) <- "persuasio4ytz"
+  return(res)
 }

@@ -124,19 +124,21 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
     ci_lb <- ub_coef - qnorm(0.975) * se
     ci_ub <- ub_coef + qnorm(0.975) * se
 
-    return(list(
-      ub_coef = ub_coef,
-      ub_se = se,
-      ci_lb = ci_lb,
-      ci_ub = ci_ub,
+    res <- list(
+      ub_coef = as.numeric(ub_coef),
+      ub_se = as.numeric(se),
+      ci_lb = as.numeric(ci_lb),
+      ci_ub = as.numeric(ci_ub),
       outcome = Y,
       treatment = T,
       instrument = Z,
       covariates = X,
       model = model,
-      n = n,
-      class = "aprub"
-    ))
+      n = n
+    )
+
+    class(res) <- "aprub"
+    return(res)
   }
 
   # CASE 2: COVARIATES
@@ -164,19 +166,21 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
 
     ub_coef <- mean(yhat1 - yhat0) / mean(1 - yhat0)
 
-    return(list(
-      ub_coef = ub_coef,
-      ub_se = NA,
-      ci_lb = NA,
-      ci_ub = NA,
+    res <- list(
+      ub_coef = as.numeric(ub_coef),
+      ub_se = NA_real_,
+      ci_lb = NA_real_,
+      ci_ub = NA_real_,
       outcome = Y,
       treatment = T,
       instrument = Z,
       covariates = X,
       model = model,
-      n = nrow(data),
-      class = "aprub"
-    ))
+      n = nrow(data)
+    )
+
+    class(res) <- "aprub"
+    return(res)
   }
 
 }

@@ -98,10 +98,11 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       upr = lpr + qnorm(0.975) * se
     )
 
-    return(list(
+    res <- list(
       lpr = as.numeric(lpr),
       se = as.numeric(se),
-      ci = ci,
+      ci_lb = as.numeric(ci["lwr"]),
+      ci_ub = as.numeric(ci["upr"]),
       n = n,
       outcome = y,
       treatment = t,
@@ -109,7 +110,10 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       covariates = x,
       model = model,
       case = "no_interaction"
-    ))
+    )
+
+    class(res) <- "lpr4ytz"
+    return(res)
   }
 
   # CASE 2: INTERACTION MODEL
@@ -135,10 +139,11 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
     lpr <- num / den
 
-    return(list(
+    res <- list(
       lpr = as.numeric(lpr),
-      se = NA,
-      ci = c(NA, NA),
+      se = NA_real_,
+      ci_lb = NA_real_,
+      ci_ub = NA_real_,
       n = n,
       outcome = y,
       treatment = t,
@@ -146,7 +151,10 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       covariates = x,
       model = model,
       case = "interaction"
-    ))
+    )
+
+    class(res) <- "lpr4ytz"
+    return(res)
   }
 
 }

@@ -81,11 +81,11 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
     ci_lb <- max(0, lpr_coef - z_crit * se)
     ci_ub <- min(1, lpr_coef + z_crit * se)
 
-    result <- list(
-      lpr = lpr_coef,
-      ci_lb = ci_lb,
-      ci_ub = ci_ub,
-      se = se,
+    res <- list(
+      lpr = as.numeric(lpr_coef),
+      ci_lb = as.numeric(ci_lb),
+      ci_ub = as.numeric(ci_ub),
+      se = as.numeric(se),
       level = level,
       method = "normal",
       n = n,
@@ -96,6 +96,9 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
       model = model,
       title = title
     )
+
+    class(res) <- "persuasio4ytz2lpr"
+    return(res)
   }
 
   # =========================================================
@@ -120,7 +123,7 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
     ci_lb <- quantile(boot, probs = alpha / 2)
     ci_ub <- quantile(boot, probs = 1 - alpha / 2)
 
-    result <- list(
+    res <- list(
       lpr = lpr_coef,
       ci_lb = ci_lb,
       ci_ub = ci_ub,
@@ -138,6 +141,6 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
     )
   }
 
-  class(result) <- "persuasio4ytz2lpr"
-  return(result)
+  class(res) <- "persuasio4ytz2lpr"
+  return(res)
 }

@@ -108,6 +108,9 @@ persuasio4yz <- function(data, y, z, x = NULL,
       model = model,
       title = title
     )
+
+    class(res) <- "persuasio4yz"
+    return(res)
   }
 
   if (method == "bootstrap") {

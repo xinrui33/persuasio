@@ -88,7 +88,7 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
     ci_lb <- lb_coef - zval * se
     ci_ub <- lb_coef + zval * se
 
-    return(list(
+    res <- list(
       lb_coef = as.numeric(lb_coef),
       lb_se = as.numeric(se),
       ci_lb = as.numeric(ci_lb),
@@ -97,9 +97,11 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
       instrument = Z,
       covariates = X,
       model = model,
-      n = n,
-      class = "aprlb"
-    ))
+      n = n
+    )
+
+    class(res) <- "aprlb"
+    res
   }
 
   # CASE 2: INTERACTION MODEL
@@ -118,16 +120,18 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
 
   lb_coef <- mean(y1 - y0)
 
-  return(list(
+  res <- list(
     lb_coef = as.numeric(lb_coef),
-    lb_se = NA,
-    ci_lb = NA,
-    ci_ub = NA,
+    lb_se = NA_real_,
+    ci_lb = NA_real_,
+    ci_ub = NA_real_,
     outcome = Y,
     instrument = Z,
     covariates = X,
     model = model,
-    n = n,
-    class = "aprlb"
-  ))
+    n = n
+  )
+
+  class(res) <- "aprlb"
+  return(res)
 }
