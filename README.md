@@ -3,25 +3,53 @@ persuasio: R module to estimate the effect of persuasion and conduct inference, 
 
 persuasio/
 │
-├── R/
-│   │
-│   ├── aprlb.R
-│   ├── aprub.R
-│   ├── lpr4ytz.R
-│   ├── calc4persuasio.R
-│   │
-│   ├── utils_validation.R
-│   ├── utils_variance.R
-│   ├── utils_helpers.R
-│   │
-│   ├── print.R
-│   ├── summary.R
-│   ├── generics.R
-│   │
-│   └── zzz.R
-│
-├── man/
-├── tests/
 ├── DESCRIPTION
 ├── NAMESPACE
-└── README.md
+├── R/
+│
+│   # 1. Main user interface
+│   persuasio.R
+│
+│
+│   # 2. APR family
+│   aprlb.R
+│   aprub.R
+│   persuasio4ytz.R
+│
+│
+│   # 3. LPR family
+│   lpr4ytz.R
+│   persuasio4ytz2lpr.R
+│
+│
+│   # 4. YZ family
+│   persuasio4yz.R
+│
+│   
+│   # 5. Summary statistics calculator
+│   calc4persuasio.R
+│
+│
+│   # 6. Shared utilities
+│   utils_binary.R
+│   utils_matrix.R
+│   utils_bootstrap.R
+│   utils_clipping.R
+│
+│   
+│   # 7. Print methods
+│   print_aprlb.R
+│   print_aprub.R
+│   print_lpr4ytz.R
+│   print_calc4persuasio.R
+│   print_persuasio4yz.R
+│   print_persuasio4ytz.R
+│
+│   
+│   # 8. Internal helpers
+│   internal_apr_helpers.R
+│   internal_lpr_helpers.R
+│
+│  
+│   # 9. Package utils
+│   zzz.R
