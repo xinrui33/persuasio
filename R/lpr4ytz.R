@@ -1,6 +1,10 @@
-#' Local Persuasion Rate (LPR)
+#' Estimate the local persuasion rate
 #'
-#' Estimates the Local Persuasion Rate using binary outcome, treatment, and instrument.
+#' __lpr4ytz__ estimates the local persuasion rate (LPR). _varlist_ should
+#' include _depvar_ _treatrvar_ _instrvar_ _covariates_ in order. Here, _depvar_
+#' is binary outcomes (_y_), _treatrvar_ is binary treatments (_t_), _instrvar_
+#' is binary instruments (_z_), and _covariates_ (_x_) are optional. There are
+#' two cases: (i) _covariates_ are absent and (ii) _covariates_ are present.
 #'
 #' @param data data.frame
 #' @param y outcome variable (binary)
@@ -9,7 +13,22 @@
 #' @param x covariates (optional character vector)
 #' @param model "no_interaction" or "interaction"
 #'
-#' @return A list of class \code{lpr4ytz}
+#' @return A list with:
+#' \itemize{
+#'   \item \code{lpr}: Estimated Local Persuasion Rate
+#'   \item \code{se}: Standard error of the estimate (NA under interaction model)
+#'   \item \code{ci_lb}: Lower bound of the confidence interval
+#'   \item \code{ci_ub}: Upper bound of the confidence interval
+#'   \item \code{n}: Sample size
+#'   \item \code{outcome}: Outcome variable name
+#'   \item \code{treatment}: Treatment variable name
+#'   \item \code{instrument}: Instrument variable name
+#'   \item \code{covariates}: Covariates used in estimation
+#'   \item \code{model}: Model specification used
+#'   \item \code{case}: Estimation case used ("interaction" or "no_interaction")
+#'   \item \code{class}: S3 class label ("lpr4ytz")
+#' }
+#'
 #' @export
 lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 

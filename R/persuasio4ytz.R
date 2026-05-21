@@ -1,7 +1,8 @@
-#' Average Persuasion Rate Inference
+#' Conduct causal inference on persuasion effects for binary outcomes _y_,
+#' binary treatments _t_ and binary instruments _z_
 #'
-#' Estimates the Average Persuasion Rate (APR) and constructs confidence intervals
-#' using either asymptotic normal approximation or bootstrap methods.
+#' Estimates the Average Persuasion Rate (APR) and constructs confidence
+#' intervals using either asymptotic normal approximation or bootstrap methods.
 #'
 #' This function combines:
 #' \itemize{
@@ -16,7 +17,8 @@
 #' @param z character, instrument variable name (binary 0/1)
 #' @param x optional character vector of covariates
 #' @param level confidence level (default 0.95)
-#' @param model model specification: \code{"no_interaction"} or \code{"interaction"}
+#' @param model model specification: \code{"no_interaction"} or
+#'   \code{"interaction"}
 #' @param method inference method: \code{"normal"} or \code{"bootstrap"}
 #' @param nboot number of bootstrap replications (default 50)
 #' @param title optional title for printed output
@@ -40,10 +42,9 @@
 #'   \item{title}{optional title}
 #' }
 #'
-#' @details
-#' If \code{method = "normal"}, the function uses a Stoye (2009)-style correction
-#' for partially identified parameters. Standard errors must be available from
-#' both \code{aprlb()} and \code{aprub()}.
+#' @details If \code{method = "normal"}, the function uses a Stoye (2009)-style
+#' correction for partially identified parameters. Standard errors must be
+#' available from both \code{aprlb()} and \code{aprub()}.
 #'
 #' If \code{method = "bootstrap"}, inference is based on empirical quantiles
 #' from resampled estimates.

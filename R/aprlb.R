@@ -1,38 +1,40 @@
-#' Lower Bound of Average Persuasion Rate
+#' Estimate the lower bound on the average persuasion rate
 #'
-#' Computes the lower bound of the Average Persuasion Rate using a linear probability model
-#' and sandwich (HC1) variance estimation.
+#' __aprlb__ estimates the lower bound on the average persuasion rate (APR).
+#' _varlist_ should include _depvar_ _instrvar_ _covariates_ in order. Here,
+#' _depvar_ is binary outcomes (_y_), _instrvar_ is binary instruments (_z_),
+#' and _covariates_ (_x_) are optional.
 #'
-#' Two model specifications are supported:
+#' There are two cases: (i) _covariates_ are absent and (ii) _covariates_ are
+#' present.
 #'
-#' - `no_interaction`: pooled regression with covariates
-#' - `interaction`: separate regressions by instrument status
+#' With covariates, there are two model specifications: `no_interaction`and
+#' `interaction`.
 #'
-#' If `model = "interaction"` but `X = NULL`, the function falls back to
-#' `"no_interaction"` with a warning.
 #'
 #' @param data data.frame containing variables
-#' @param Y character, outcome variable (binary 0/1)
-#' @param Z character, instrument variable (binary 0/1)
-#' @param X optional character vector of covariates
+#' @param y outcome, outcome variable (binary 0/1)
+#' @param z instrument, instrument variable (binary 0/1)
+#' @param x optional covariates, if they exist
 #' @param model model specification: "no_interaction" or "interaction"
-#' @param quiet logical, suppress messages
+#'
 #'
 #' @return A list with:
 #' \itemize{
-#'   \item lb_coef lower bound estimate
-#'   \item lb_se standard error (NA if interaction model)
-#'   \item ci_lb 95\% CI lower bound
-#'   \item ci_ub 95\% CI upper bound
-#'   \item outcome Y variable name
-#'   \item instrument Z variable name
-#'   \item covariates X variables
-#'   \item model model used
-#'   \item n sample size
+#'   \item \code{lb_coef}: Lower bound estimate of the Average Persuasion Rate
+#'   \item \code{lb_se}: Standard error of the estimate (NA under interaction model)
+#'   \item \code{ci_lb}: Lower bound of the 95\% confidence interval
+#'   \item \code{ci_ub}: Upper bound of the 95\% confidence interval
+#'   \item \code{outcome}: Outcome variable name
+#'   \item \code{instrument}: Instrument variable name
+#'   \item \code{covariates}: Covariates used in estimation
+#'   \item \code{model}: Model specification used
+#'   \item \code{n}: Sample size
+#'   \item \code{class}: S3 class label ("aprub")
 #' }
 #'
 #' @export
-aprlb <- function(data, y, z, x = NULL, model = "no_interaction", quiet = FALSE) {
+aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
   model <- match.arg(model, c("no_interaction", "interaction"))
 

@@ -1,12 +1,14 @@
-#' @title Calculate the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available
+#' Calculate the effect of persuasion when information on Pr(y=1|z) and
+#' optimally Pr(t=1|z) for each z=0,1 is available
 #'
-#' @description
-#' __calc4persuasio__ calculates the effect of persuasion when information on Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available.
-#' The inputs are y1, y0, e1, and e0, corresponding to estimates of
-#' \eqn{P(y=1 \mid z=1)}, \eqn{P(y=1 \mid z=0)},
-#' \eqn{P(t=1 \mid z=1)}, and \eqn{P(t=1 \mid z=0)}.
+#' __calc4persuasio__ calculates the effect of persuasion when information on
+#' Pr(y=1|z) and optimally Pr(t=1|z) for each z=0,1 is available. The inputs are
+#' y1, y0, e1, and e0, corresponding to estimates of \eqn{P(y=1 \mid z=1)},
+#' \eqn{P(y=1 \mid z=0)}, \eqn{P(t=1 \mid z=1)}, and \eqn{P(t=1 \mid z=0)}.
 #'
-#' The outputs of this command are the lower and upper bounds on the average persuasion rate (APR) as well as the lower and upper bounds on the local persuasion rate (LPR).
+#' The outputs of this command are the lower and upper bounds on the average
+#' persuasion rate (APR) as well as the lower and upper bounds on the local
+#' persuasion rate (LPR).
 #'
 #'
 #' @param y1 mean outcome under z = 1
@@ -15,10 +17,9 @@
 #' @param e0 (optional) mean treatment under z = 0
 #'
 #' @return An object of class \code{calc4persuasio}, a list containing:
-#' \item{apr}{numeric vector: lower and upper bound}
-#' \item{lpr}{numeric vector: lower and upper bound}
-#' \item{inputs}{input values}
-#' \item{case}{case identifier}
+#'   \item{apr}{numeric vector: lower and upper bound} \item{lpr}{numeric
+#'   vector: lower and upper bound} \item{inputs}{input values} \item{case}{case
+#'   identifier}
 #'
 #' @export
 

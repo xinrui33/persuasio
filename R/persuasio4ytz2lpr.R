@@ -1,4 +1,5 @@
-#' Local Persuasion Rate Inference Wrapper
+#' Conduct causal inference on the local persuasion rate for binary outcomes
+#' _y_, binary treatments _t_ and binary instruments _z_
 #'
 #' Computes the Local Persuasion Rate (LPR) and constructs confidence intervals
 #' using either asymptotic normal approximation or bootstrap methods.
@@ -12,7 +13,8 @@
 #' @param z character, instrument variable name (binary 0/1)
 #' @param x optional character vector of covariates
 #' @param level confidence level (default 0.95)
-#' @param model model specification: \code{"no_interaction"} or \code{"interaction"}
+#' @param model model specification: \code{"no_interaction"} or
+#'   \code{"interaction"}
 #' @param method inference method: \code{"normal"} or \code{"bootstrap"}
 #' @param nboot number of bootstrap replications (default 50)
 #' @param title optional title for printed output
@@ -36,10 +38,9 @@
 #'   \item{title}{optional title}
 #' }
 #'
-#' @details
-#' For \code{method = "normal"}, the confidence interval is based on a
-#' standard normal approximation using the delta-method standard error
-#' from \code{lpr4ytz()}.
+#' @details For \code{method = "normal"}, the confidence interval is based on a
+#' standard normal approximation using the delta-method standard error from
+#' \code{lpr4ytz()}.
 #'
 #' For \code{method = "bootstrap"}, the interval is computed using empirical
 #' quantiles of bootstrap replications.

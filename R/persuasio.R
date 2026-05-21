@@ -1,4 +1,4 @@
-#' Unified Interface for Persuasion Rate Estimation
+#' Conduct causal inference on persuasive effects
 #'
 #' Main wrapper function for the persuasio package. Provides a unified entry point
 #' to different estimators of persuasion-related causal parameters, including:
@@ -16,12 +16,12 @@
 #' }
 #'
 #' @param varlist character vector of variable names in the order:
-#' \code{c(Y, T, Z, X1, X2, ...)} where:
+#' \code{c(y, t, z, x, ...)} where:
 #' \itemize{
-#'   \item Y = outcome
-#'   \item T = treatment
-#'   \item Z = instrument
-#'   \item X = optional covariates
+#'   \item y = outcome
+#'   \item t = treatment
+#'   \item z = instrument
+#'   \item x = optional covariates
 #' }
 #'
 #' @param data data.frame containing all variables
