@@ -1,5 +1,6 @@
 #' Print method for aprub objects
-#'
+#' @param x object of class "aprub"
+#' @param ... unused
 #' @export
 print.aprub <- function(x, ...) {
 

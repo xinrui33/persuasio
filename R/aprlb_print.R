@@ -1,5 +1,6 @@
 #' Print method for aprlb objects
-#'
+#' @param x object of class "aprlb"
+#' @param ... unused
 #' @export
 print.aprlb <- function(x, ...) {
 
