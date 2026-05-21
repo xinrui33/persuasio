@@ -3,13 +3,19 @@
 #' @export
 aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE) {
 
+  model <- match.arg(model, choices = c("no_interaction", "interaction"))
+
+  if (model == "interaction" && is.null(X)) {
+    warning("model='interaction' ignored because X is NULL")
+  }
+
   res <- .apr_engine(data, Y, Z, X, model)
 
   est_z <- data[[Z]]
   est_y <- data[[Y]]
 
   # recompute LB logic cleanly
-  if (is.null(X)) {
+  if (model == "no_interaction") {
 
     fmla <- as.formula(paste(Y, "~", Z))
     fit <- lm(fmla, data = data)

@@ -14,6 +14,12 @@
 lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   # 1. input checks
+  model <- match.arg(model, choices = c("no_interaction", "interaction"))
+
+  if (model == "interaction" && is.null(X)) {
+    warning("model='interaction' ignored because X is NULL")
+  }
+
   yv <- data[[y]]
   tv <- data[[t]]
   zv <- data[[z]]
@@ -29,7 +35,7 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   # CASE 1: NO COVARIATES OR NO INTERACTION
 
-  if (is.null(x) || model == "no_interaction") {
+  if (model == "no_interaction") {
 
     rhs <- if (!is.null(x)) {
       paste(c(z, x), collapse = " + ")
@@ -107,7 +113,7 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   }
 
   # CASE 2: INTERACTION MODEL
-  if (!is.null(x) && model == "interaction") {
+  if (model == "interaction") {
 
     rhs <- paste(x, collapse = " + ")
 
@@ -143,5 +149,4 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     ))
   }
 
-  stop("Invalid model specification")
 }

@@ -3,7 +3,13 @@
 #' @export
 aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
 
-  if (is.null(X)) {
+  model <- match.arg(model, choices = c("no_interaction", "interaction"))
+
+  if (model == "interaction" && is.null(X)) {
+    warning("model='interaction' ignored because X is NULL")
+  }
+
+  if ("no_interaction") {
 
     fA <- lm(as.formula(paste(Y, "~", Z)), data = data)
     fB <- lm(as.formula(paste("I(1 -", Y, ")", "~", Z)), data = data)
