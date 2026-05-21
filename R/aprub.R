@@ -46,21 +46,20 @@
 #' aprub(data, "y", "t", "z")
 #'
 #' @export
-aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
+aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   model <- match.arg(model, c("no_interaction", "interaction"))
 
-  if (model == "interaction" && is.null(X)) {
+  if (model == "interaction" && is.null(x)) {
     warning("model='interaction' ignored because X is NULL")
     model <- "no_interaction"
   }
 
-  y <- data[[Y]]
-  z <- data[[Z]]
+  yv <- data[[y]]
+  zv <- data[[z]]
 
-  if (!all(y %in% c(0,1))) stop(Y, " must be binary")
-  if (!all(z %in% c(0,1))) stop(Z, " must be binary")
-
+  if (!all(yv %in% c(0,1))) stop(y, " must be binary")
+  if (!all(zv %in% c(0,1))) stop(z, " must be binary")
 
   # CASE 1: NO COVARIATES
   if (model == "no_interaction") {
@@ -70,11 +69,11 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
     A <- y
     B <- 1 - y   # simplified reduced form (no need to store columns)
 
-    fA <- lm(as.formula(paste(Y, "~", Z)), data = data)
-    fB <- lm(as.formula(paste("I(1 -", Y, ")", "~", Z)), data = data)
+    fA <- lm(as.formula(paste(y, "~", z)), data = data)
+    fB <- lm(as.formula(paste("I(1 -", y, ")", "~", z)), data = data)
 
     alpha_0 <- coef(fA)["(Intercept)"]
-    alpha_1 <- coef(fA)[Z]
+    alpha_1 <- coef(fA)[z]
     beta_0  <- coef(fB)["(Intercept)"]
 
     den <- (1 - beta_0)
@@ -112,7 +111,7 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
     V <- V * (n / (n - 1))
 
     # delta method
-    idx1 <- which(colnames(X1) == Z)
+    idx1 <- which(colnames(X1) == z)
     idx2 <- k1 + which(colnames(X2) == "(Intercept)")
 
     G <- matrix(0, 1, k)
@@ -129,10 +128,10 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
       ub_se = as.numeric(se),
       ci_lb = as.numeric(ci_lb),
       ci_ub = as.numeric(ci_ub),
-      outcome = Y,
-      treatment = T,
-      instrument = Z,
-      covariates = X,
+      outcome = y,
+      treatment = t,
+      instrument = z,
+      covariates = x,
       model = model,
       n = n
     )
@@ -142,12 +141,12 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
   }
 
   # CASE 2: COVARIATES
-  X_formula <- paste(X, collapse = " + ")
+  X_formula <- paste(x, collapse = " + ")
 
   if (model == "interaction") {
 
-    fmla_A <- as.formula(paste(Y, "~", Z, "+", X_formula))
-    fmla_B <- as.formula(paste("I(1 -", Y, ") ~", Z, "+", X_formula))
+    fmla_A <- as.formula(paste(y, "~", z, "+", X_formula))
+    fmla_B <- as.formula(paste("I(1 -", y, ") ~", z, "+", X_formula))
 
     reg_A <- lm(fmla_A, data = data)
     reg_B <- lm(fmla_B, data = data)
@@ -155,8 +154,8 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
     yhat_A <- predict(reg_A)
     yhat_B <- predict(reg_B)
 
-    beta_A <- coef(reg_A)[Z]
-    beta_B <- coef(reg_B)[Z]
+    beta_A <- coef(reg_A)[z]
+    beta_B <- coef(reg_B)[z]
 
     yhat1 <- yhat_A + beta_A - beta_A * z
     yhat0 <- yhat_B - beta_B * z
@@ -171,10 +170,10 @@ aprub <- function(data, Y, T, Z, X = NULL, model = "no_interaction") {
       ub_se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
-      outcome = Y,
-      treatment = T,
-      instrument = Z,
-      covariates = X,
+      outcome = y,
+      treatment = t,
+      instrument = z,
+      covariates = x,
       model = model,
       n = nrow(data)
     )

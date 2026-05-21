@@ -33,35 +33,40 @@
 #' }
 #'
 #' @export
-aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE) {
+aprlb <- function(data, y, z, x = NULL, model = "no_interaction", quiet = FALSE) {
 
   model <- match.arg(model, c("no_interaction", "interaction"))
 
-  if (model == "interaction" && is.null(X)) {
+  if (model == "interaction" && is.null(x)) {
     warning("model='interaction' ignored because X is NULL")
     model <- "no_interaction"
   }
 
-  n <- nrow(data)
+  yv <- data[[y]]
+  zv <- data[[z]]
+
+  if (!all(yv %in% c(0,1))) stop(y, " must be binary")
+  if (!all(zv %in% c(0,1))) stop(z, " must be binary")
 
   # CASE 1: NO INTERACTION MODEL
   if (model == "no_interaction") {
 
-    fmla <- as.formula(paste(Y, "~", Z,
-                             if (!is.null(X)) paste("+", paste(X, collapse = "+"))))
+    fmla <- as.formula(paste(y, "~", z,
+                             if (!is.null(x)) paste("+", paste(x, collapse = "+"))))
 
     fit <- lm(fmla, data = data)
 
-    y <- data[[Y]]
-    z <- data[[Z]]
+    y <- data[[y]]
+    z <- data[[z]]
 
-    est_Z <- coef(fit)[Z]
+    est_z <- coef(fit)[z]
     est_intercept <- coef(fit)["(Intercept)"]
 
     # lower bound estimate
-    lb_coef <- est_Z / (1 - est_intercept)
+    lb_coef <- est_z / (1 - est_intercept)
 
-    # sandwich vcoc (HC1)
+    # sandwich vcoc
+    n <- nrow(data)
     Xmat <- model.matrix(fit)
     e <- residuals(fit)
 
@@ -70,14 +75,14 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
     vcov <- XtX_inv %*% meat %*% XtX_inv
     vcov <- vcov * (n / (n - ncol(Xmat)))
 
-    idx <- c(which(colnames(Xmat) == Z),
+    idx <- c(which(colnames(Xmat) == z),
              which(colnames(Xmat) == "(Intercept)"))
 
     V <- vcov[idx, idx]
 
     g <- matrix(c(
       1 / (1 - est_intercept),
-      est_Z / (1 - est_intercept)^2
+      est_z / (1 - est_intercept)^2
     ), nrow = 1)
 
     var <- as.numeric(g %*% V %*% t(g))
@@ -93,9 +98,9 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
       lb_se = as.numeric(se),
       ci_lb = as.numeric(ci_lb),
       ci_ub = as.numeric(ci_ub),
-      outcome = Y,
-      instrument = Z,
-      covariates = X,
+      outcome = y,
+      instrument = z,
+      covariates = x,
       model = model,
       n = n
     )
@@ -115,8 +120,8 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
     pmin(pmax(p, 0), 1)
   }
 
-  y1 <- get_pred(Y, 1)
-  y0 <- get_pred(Y, 0)
+  y1 <- get_pred(y, 1)
+  y0 <- get_pred(y, 0)
 
   lb_coef <- mean(y1 - y0)
 
@@ -125,9 +130,9 @@ aprlb <- function(data, Y, Z, X = NULL, model = "no_interaction", quiet = FALSE)
     lb_se = NA_real_,
     ci_lb = NA_real_,
     ci_ub = NA_real_,
-    outcome = Y,
-    instrument = Z,
-    covariates = X,
+    outcome = y,
+    instrument = z,
+    covariates = x,
     model = model,
     n = n
   )
