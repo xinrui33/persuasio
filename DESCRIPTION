@@ -1,20 +1,21 @@
 Package: persuasio
 Title: R module to estimate the effect of persuasion and conduct inference
 Version: 0.0.0.9000
-Authors@R: c(
+Authors@R: 
+    c(
     person(
         given = "Sung Jae",
         family = "Jun",
         email = "suj14@psu.edu",
         role = c("aut")
-    ),
+      ),
     person(
         given = "Sokbae",
         family = "Lee",
         email = "sl3841@columbia.edu",
         role = c("aut", "cre")
+      )
     )
-)
 Description: This repository contains persuasio command that estimates the effect of persuasion and conducts inference, using some of identification results obtained in Jun and Lee (2023, Journal of Political Economy, https://doi.org/10.1086/724114).
 License: GPL (>= 3)
 Encoding: UTF-8
