@@ -3,6 +3,8 @@
 S3method(print,aprlb)
 S3method(print,aprub)
 S3method(print,calc4persuasio)
+S3method(print,lpr4ytz)
 export(aprlb)
 export(aprub)
 export(calc4persuasio)
+export(lpr4ytz)
