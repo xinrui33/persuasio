@@ -4,7 +4,7 @@
 \alias{print.persuasio4yz}
 \title{Print method for persuasio4yz}
 \usage{
-\method{print}{persuasio4yz}(x, ...)
+\method{print}{persuasio4yz}(x, digits = 4, ...)
 }
 \arguments{
 \item{x}{object of class "persuasio4yz"}

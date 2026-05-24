@@ -2,7 +2,7 @@
 % Please edit documentation in R/aprlb.R
 \name{aprlb}
 \alias{aprlb}
-\title{Estimate the lower bound on the average persuasion rate}
+\title{Estimate the lower bound of the average persuasion rate}
 \usage{
 aprlb(data, y, z, x = NULL, model = "no_interaction")
 }
@@ -29,11 +29,11 @@ A list with:
 \item \code{covariates}: Covariates used in estimation
 \item \code{model}: Model specification used
 \item \code{n}: Sample size
-\item \code{class}: S3 class label ("aprub")
+\item \code{class}: S3 class label ("aprlb")
 }
 }
 \description{
-\strong{aprlb} estimates the lower bound on the average persuasion rate (APR).
+\strong{aprlb} estimates the lower bound of the average persuasion rate (APR).
 \emph{varlist} should include \emph{depvar} \emph{instrvar} \emph{covariates} in order. Here,
 \emph{depvar} is binary outcomes (\emph{y}), \emph{instrvar} is binary instruments (\emph{z}),
 and \emph{covariates} (\emph{x}) are optional.

@@ -4,7 +4,7 @@
 \alias{print.aprlb}
 \title{Print method for aprlb objects}
 \usage{
-\method{print}{aprlb}(x, ...)
+\method{print}{aprlb}(x, digits = 4, ...)
 }
 \arguments{
 \item{x}{object of class "aprlb"}

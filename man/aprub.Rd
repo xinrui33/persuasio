@@ -2,7 +2,7 @@
 % Please edit documentation in R/aprub.R
 \name{aprub}
 \alias{aprub}
-\title{Estimate the upper bound on the average persuasion rate}
+\title{Estimate the upper bound of the average persuasion rate}
 \usage{
 aprub(data, y, t, z, x = NULL, model = "no_interaction")
 }

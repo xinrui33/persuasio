@@ -4,7 +4,7 @@
 \alias{print.aprub}
 \title{Print method for aprub objects}
 \usage{
-\method{print}{aprub}(x, ...)
+\method{print}{aprub}(x, digits = 4, ...)
 }
 \arguments{
 \item{x}{object of class "aprub"}

@@ -11,9 +11,9 @@ persuasio4ytz(
   t,
   z,
   x = NULL,
-  level = 0.95,
   model = "no_interaction",
   method = "normal",
+  level = 0.95,
   nboot = 50,
   title = NULL,
   subset = NULL
@@ -30,12 +30,12 @@ persuasio4ytz(
 
 \item{x}{optional character vector of covariates}
 
-\item{level}{confidence level (default 0.95)}
-
 \item{model}{model specification: \code{"no_interaction"} or
 \code{"interaction"}}
 
 \item{method}{inference method: \code{"normal"} or \code{"bootstrap"}}
+
+\item{level}{confidence level (default 0.95)}
 
 \item{nboot}{number of bootstrap replications (default 50)}
 

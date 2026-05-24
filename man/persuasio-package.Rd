@@ -7,14 +7,4 @@
 \description{
 A package for persuasion rate estimation.
 }
-\author{
-\strong{Maintainer}: Sokbae Lee \email{sl3841@columbia.edu}
-
-Authors:
-\itemize{
-  \item Sokbae Lee \email{sl3841@columbia.edu}
-  \item Sung Jae Jun \email{suj14@psu.edu}
-}
-
-}
 \keyword{internal}

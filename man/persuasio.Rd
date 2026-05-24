@@ -2,7 +2,7 @@
 % Please edit documentation in R/persuasio.R
 \name{persuasio}
 \alias{persuasio}
-\title{Conduct causal inference on persuasive effects}
+\title{Interface for causal inference on persuasion effects}
 \usage{
 persuasio(
   est = c("apr", "lpr", "yz", "calc"),
@@ -13,49 +13,50 @@ persuasio(
 )
 }
 \arguments{
-\item{est}{character. Type of estimator:
+\item{est}{character. Estimator type:
 \itemize{
-\item \code{"apr"}: Average Persuasion Rate bounds (\code{persuasio4ytz})
-\item \code{"lpr"}: Local Persuasion Rate (\code{persuasio4ytz2lpr})
-\item \code{"yz"}: Reduced-form persuasion bound (\code{persuasio4yz})
-\item \code{"calc"}: Direct plug-in calculation (\code{calc4persuasio})
+\item \code{"apr"}: Average persuasion rate bounds for binary outcome, treatment and instrument
+\item \code{"lpr"}: Local persuasion rate bounds for binary outcome, treatment and instrument
+\item \code{"yz"}: Average and local persuasion rate bounds using binary outcome and instrument only
+\item \code{"calc"}: Average and local persuasion rate calculation from summary statistics
 }}
 
 \item{varlist}{character vector of variable names in the order:
 \code{c(y, t, z, x, ...)} where:
 \itemize{
-\item y = outcome
-\item t = treatment
-\item z = instrument
+\item y = binary outcome
+\item t = binary treatment (optional for \code{"yz"} and \code{"calc"})
+\item z = binary instrument
 \item x = optional covariates
 }}
 
-\item{data}{data.frame containing all variables}
+\item{data}{data.frame containing variables}
 
-\item{subset}{optional logical or index vector for subsetting data}
+\item{subset}{optional vector of row indices or logical filter}
 
 \item{...}{additional arguments passed to downstream estimators}
 }
 \value{
-A list or data.frame depending on \code{est}:
+An object of class depending on \code{est}:
 \itemize{
-\item APR / LPR / YZ: model-based estimation results
-\item CALC: closed-form moment-based bounds
+\item \code{"apr"}: APR estimation object
+\item \code{"lpr"}: LPR estimation object
+\item \code{"yz"}: reduced-form bound object
+\item \code{"calc"}: summary-statistics-based object
 }
 }
 \description{
-Main wrapper function for the persuasio package. Provides a unified entry point
-to different estimators of persuasion-related causal parameters, including:
-Average Persuasion Rate (APR), Local Persuasion Rate (LPR), and reduced-form
-bounds based on summary moments.
+Main wrapper for the \code{persuasio} package. This function provides a unified
+entry point to persuasion effect estimators.
 }
 \details{
-The function routes to different estimators depending on \code{est}.
+The function does not perform estimation directly. Instead, it parses inputs,
+optionally subsets the data, and dispatches to the appropriate estimator.
 
-This function does not perform estimation itself. It only:
+This function only performs:
 \enumerate{
-\item Parses variable inputs
-\item Applies optional subsetting
-\item Routes to the appropriate estimator
+\item input parsing
+\item optional subsetting
+\item method dispatch
 }
 }

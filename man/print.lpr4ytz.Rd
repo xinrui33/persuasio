@@ -4,10 +4,10 @@
 \alias{print.lpr4ytz}
 \title{Print method for lpr4ytz objects}
 \usage{
-\method{print}{lpr4ytz}(x, ...)
+\method{print}{lpr4ytz}(x, digits = 4, ...)
 }
 \arguments{
-\item{x}{object of class "calc4persuasio"}
+\item{x}{object of class "lpr4ytz"}
 
 \item{...}{unused}
 }
