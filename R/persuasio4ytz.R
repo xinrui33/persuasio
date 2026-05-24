@@ -51,9 +51,9 @@
 #'
 #' @export
 persuasio4ytz <- function(data, y, t, z, x = NULL,
-                          level = 0.95,
                           model = "no_interaction",
                           method = "normal",
+                          level = 0.95,
                           nboot = 50,
                           title = NULL,
                           subset = NULL) {
@@ -77,11 +77,11 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
 
   alpha <- 1 - level
 
-  # CASE 1: NORMAL APPROXIMATION (Stoye-style CI)
+  # Case 1: Normal approximation (Stoye-style CI)
   if (method == "normal") {
 
     if (is.na(lb_se) || is.na(ub_se)) {
-      stop("Normal method requires SEs (not available with this model). Use method='bootstrap'.")
+      stop("Normal approximation not available: lower-bound SE is NA (likely due to covariates). Use method='bootstrap'.")
     }
 
     cv1 <- qnorm(1 - alpha)
@@ -95,7 +95,11 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
       pnorm(grid + correction) - pnorm(-grid) - (1 - alpha)
     )
 
-    cv_star <- mean(grid[loss == min(loss)])
+    objective <- function(c) {
+      abs(pnorm(c + correction) - pnorm(-c) - (1 - alpha))
+    }
+
+    cv_star <- optimize(objective, interval = c(cv1, cv2))$minimum
 
     ci_lb <- lb_coef - cv_star * lb_se
     ci_ub <- ub_coef + cv_star * ub_se
@@ -120,7 +124,7 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
     return(res)
   }
 
-  # CASE 2: BOOTSTRAP
+  # Case 2: Bootstrap
   if (method == "bootstrap") {
 
     set.seed(NULL)

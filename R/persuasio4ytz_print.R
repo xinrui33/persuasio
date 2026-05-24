@@ -2,29 +2,41 @@
 #' @param x object of class "persuasio4ytz"
 #' @param ... unused
 #' @export
-print.persuasio4ytz <- function(x, ...) {
+print.persuasio4ytz <- function(x, digits = 4, ...) {
 
   cat("\n")
-  cat(strrep("-", 70), "\n")
-  cat("persuasio4ytz: Average Persuasion Rate Inference\n")
-  cat(strrep("-", 70), "\n\n")
+  cat("Average Persuasion Rate Inference for binary outcomes, binary treatments and binary instruments\n\n")
 
-  if (!is.null(x$title)) cat("Title:", x$title, "\n\n")
+  if (!is.null(x$title)) {
+    cat("Title: ", x$title, "\n\n", sep = "")
+  }
 
-  cat("Outcome:     ", x$outcome, "\n", sep = "")
-  cat("Treatment:   ", x$treatment, "\n", sep = "")
-  cat("Instrument:  ", x$instrument, "\n", sep = "")
-  cat("Model:       ", x$model, "\n")
-  cat("Method:      ", x$method, "\n\n")
+  cat("Outcome:    ", x$outcome, "\n", sep = "")
+  cat("Treatment:  ", x$treatment, "\n", sep = "")
+  cat("Instrument: ", x$instrument, "\n", sep = "")
+  cat("Model:      ", x$model, "\n", sep = "")
+  cat("Method:     ", x$method, "\n", sep = "")
+  cat("Observations: ", x$n, "\n", sep = "")
 
-  cat(sprintf("Lower Bound: %10.6f\n", x$lb_coef))
-  cat(sprintf("Upper Bound: %10.6f\n\n", x$ub_coef))
+  cat("\nEstimates:\n")
 
-  cat(sprintf("CI (level %.0f%%): [%.6f, %.6f]\n",
-              x$level * 100, x$ci_lb, x$ci_ub))
+  out <- data.frame(
+    `Lower Bound` = round(x$lb_coef, digits),
+    `Upper Bound` = round(x$ub_coef, digits),
+    `CI Lower` = round(x$ci_lb, digits),
+    `CI Upper` = round(x$ci_ub, digits)
+  )
+
+  cat(format(out, row.names = FALSE), sep = "\n")
+
+  cat("\n")
+  cat(sprintf("Confidence level: %.0f%%\n", x$level * 100))
+
+  if (x$method == "bootstrap") {
+    cat(sprintf("Bootstrap replications: %s\n", x$nboot))
+  }
 
   cat("\nNote: Based on persuasio4ytz bounding framework.\n")
-  cat(strrep("-", 70), "\n\n")
 
   invisible(x)
 }
