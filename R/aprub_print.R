@@ -2,34 +2,46 @@
 #' @param x object of class "aprub"
 #' @param ... unused
 #' @export
-print.aprub <- function(x, ...) {
+print.aprub <- function(x, digits = 4, ...) {
 
   cat("\n")
-  cat(strrep("-", 65), "\n")
-  cat("aprub: Upper Bound of Average Persuasion Rate\n")
-  cat(strrep("-", 65), "\n\n")
+  cat("Upper Bound of Average Persuasion Rate\n\n")
 
   cat("Outcome:    ", x$outcome, "\n", sep = "")
   cat("Instrument: ", x$instrument, "\n", sep = "")
 
   if (!is.null(x$covariates)) {
-    cat("Covariates: ", paste(x$covariates, collapse = ", "), "\n\n", sep = "")
+    cat("Covariates: ", paste(x$covariates, collapse = ", "), "\n", sep = "")
   } else {
-    cat("Covariates: None\n\n")
+    cat("Covariates: None\n", sep = "")
   }
 
-  cat(sprintf("Estimate: %10.6f\n", x$ub_coef))
+  cat("Model:             ", x$model, "\n", sep = "")
+  cat("Observations:      ", x$n, "\n\n", sep = "")
 
-  if (!is.null(x$ub_se) && !is.na(x$ub_se)) {
-    cat(sprintf("Std. Err.: %10.6f\n", x$ub_se))
-    cat(sprintf("95%% CI:    [%10.6f, %10.6f]\n", x$ci_lb, x$ci_ub))
-  } else {
-    cat(sprintf("Std. Err.: %10s\n", "."))
-    cat("95% CI:    [., .]\n")
+  cat("\n")
+  cat("Estimates:\n")
+
+  cat(
+    format(
+      data.frame(
+        Estimate   = round(x$ub_coef, digits),
+        `Std. Error` = round(x$ub_se, digits),
+        `95% CI Lower` = round(x$ci_lb, digits),
+        `95% CI Upper` = round(x$ci_ub, digits)
+      ),
+      row.names = FALSE
+    ),
+    sep = "\n"
+  )
+
+  if (is.na(x$ub_se)) {
+    cat("\n\nStandard errors not available for this specification.")
   }
 
-  cat("\nNote: Estimated using persuasio APR upper bound estimator.\n")
-  cat(strrep("-", 65), "\n\n")
+  cat("\n")
+
+  cat("Note: It is recommended to use the 'persuasio' command.\n")
 
   invisible(x)
 }
