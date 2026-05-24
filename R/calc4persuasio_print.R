@@ -3,26 +3,49 @@
 #' @param ... unused
 #' @export
 
-print.calc4persuasio <- function(x, ...) {
+print.calc4persuasio <- function(x, digits = 4, ...) {
 
-  cat("\ncalc4persuasio results\n")
-  cat("----------------------\n\n")
+  cat("\n")
+  cat("calc4persuasio: APR and LPR bounds\n\n")
 
-  cat("Case:", x$case, "\n\n")
+  cat("Case: ", x$case, "\n\n", sep = "")
 
   cat("APR bounds:\n")
-  cat(sprintf("  [%0.4f, %0.4f]\n", x$apr["lower"], x$apr["upper"]))
+  cat(
+    format(
+      data.frame(
+        Lower = round(x$apr[["lower"]], digits),
+        Upper = round(x$apr[["upper"]], digits)
+      ),
+      row.names = FALSE
+    ),
+    sep = "\n"
+  )
 
   cat("\nLPR bounds:\n")
-  cat(sprintf("  [%0.4f, %0.4f]\n", x$lpr["lower"], x$lpr["upper"]))
+  cat(
+    format(
+      data.frame(
+        Lower = round(x$lpr[["lower"]], digits),
+        Upper = round(x$lpr[["upper"]], digits)
+      ),
+      row.names = FALSE
+    ),
+    sep = "\n"
+  )
 
   cat("\nInputs:\n")
-  cat(sprintf("  y1 = %s, y0 = %s\n", x$inputs$y1, x$inputs$y0))
-  cat(sprintf("  e1 = %s, e0 = %s\n", x$inputs$e1, x$inputs$e0))
 
-  if (x$case == "case_2") {
-    cat("\nNote: exposure rates Pr(t=1|z) not provided.\n")
+  inputs <- x$inputs
+
+  cat("y1 = ", inputs[["y1"]], ", y0 = ", inputs[["y0"]], "\n", sep = "")
+  cat("e1 = ", inputs[["e1"]], ", e0 = ", inputs[["e0"]], "\n", sep = "")
+
+  if (x$case == "no exposure rates") {
+    cat("\nNote: Exposure rates, Pr(t=1|z) for z=0,1, are missing.\n")
   }
+
+  cat("\n")
 
   invisible(x)
 }

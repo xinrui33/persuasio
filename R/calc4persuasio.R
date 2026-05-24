@@ -25,7 +25,7 @@
 
 calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
 
-  # 1. input validation
+  # Input validation
   check01 <- function(x, name) {
     if (!is.null(x) && (x < 0 || x > 1)) {
       stop(name, " must be in [0,1]")
@@ -37,10 +37,10 @@ calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
   check01(e1, "e1")
   check01(e0, "e0")
 
-  # 2. case detection
+  # Case detection
   has_exposure <- !is.null(e1) && !is.null(e0)
 
-  # 3. computation
+  # Computation
   if (has_exposure) {
 
     # APR lower bound
@@ -58,25 +58,26 @@ calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
     lpr_lb <- max(apr_lb, late)
     lpr_ub <- 1
 
-    case_id <- "case_1"
+    case <- "with exposure rates"
 
   } else {
 
-    apr_lb <- (y1 - y0) / (1 - y0)
+    lb <- (y1 - y0) / (1 - y0)
+
+    apr_lb <- lb
     apr_ub <- 1
 
-    lpr_lb <- apr_lb
+    lpr_lb <- lb
     lpr_ub <- 1
 
-    case_id <- "case_2"
+    case <- "no exposure rates"
   }
 
-  # 4. structured output
   res <- list(
     apr = c(lower = apr_lb, upper = apr_ub),
     lpr = c(lower = lpr_lb, upper = lpr_ub),
     inputs = list(y1 = y1, y0 = y0, e1 = e1, e0 = e0),
-    case = case_id
+    case = case
   )
 
   class(res) <- "calc4persuasio"
