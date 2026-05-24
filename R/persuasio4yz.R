@@ -74,25 +74,19 @@ persuasio4yz <- function(data, y, z, x = NULL,
   n <- nrow(data)
   alpha <- 1 - level
 
+  res <- NULL
+
+  # Normal approximation
   if (method == "normal") {
 
-    if (is.na(lb_se) || is.na(ub_se)) {
-      stop("Normal CI not available. Use bootstrap.")
+    if (is.na(lb_se)) {
+      stop("Normal approximation not available: lower-bound SE is NA (likely due to covariates). Use method='bootstrap'.")
     }
 
-    cv1 <- qnorm(1 - alpha)
-    cv2 <- qnorm(1 - alpha / 2)
+    cv <- qnorm(level)
 
-    correction <- (ub_coef - lb_coef) / max(lb_se, ub_se)
-
-    grid <- seq(cv1 - 0.01, cv2 + 0.01, length.out = n)
-
-    loss <- abs(pnorm(grid + correction) - pnorm(-grid) - (1 - alpha))
-
-    cv_star <- mean(grid[loss == min(loss)])
-
-    ci_lb <- lb_coef - cv_star * lb_se
-    ci_ub <- ub_coef + cv_star * ub_se
+    ci_lb <- lb_coef - cv * lb_se
+    ci_ub <- ub_coef + cv * ub_se
 
     res <- list(
       lb_coef = lb_coef,
@@ -100,7 +94,7 @@ persuasio4yz <- function(data, y, z, x = NULL,
       ci_lb = ci_lb,
       ci_ub = ci_ub,
       level = level,
-      method = "normal",
+      method = method,
       n = n,
       outcome = y,
       instrument = z,
@@ -108,11 +102,10 @@ persuasio4yz <- function(data, y, z, x = NULL,
       model = model,
       title = title
     )
-
-    class(res) <- "persuasio4yz"
-    return(res)
   }
 
+
+  # Bootstrap (Stata-style percentile)
   if (method == "bootstrap") {
 
     lb_boot <- numeric(nboot)
@@ -123,7 +116,7 @@ persuasio4yz <- function(data, y, z, x = NULL,
       idx <- sample(seq_len(n), size = n, replace = TRUE)
       d_b <- data[idx, , drop = FALSE]
 
-      lb_b <- try(aprlb(d_b, y, z, x, model, quiet = TRUE), silent = TRUE)
+      lb_b <- try(aprlb(d_b, y, z, x, model), silent = TRUE)
       ub_b <- try(aprub(d_b, y, NULL, z, x, model), silent = TRUE)
 
       lb_boot[b] <- if (inherits(lb_b, "try-error")) NA else lb_b$lb_coef
@@ -133,8 +126,8 @@ persuasio4yz <- function(data, y, z, x = NULL,
     lb_boot <- lb_boot[!is.na(lb_boot)]
     ub_boot <- ub_boot[!is.na(ub_boot)]
 
-    ci_lb <- quantile(lb_boot, probs = alpha)
-    ci_ub <- quantile(ub_boot, probs = 1 - alpha)
+    ci_lb <- quantile(lb_boot, probs = alpha, na.rm = TRUE)
+    ci_ub <- quantile(ub_boot, probs = 1 - alpha, na.rm = TRUE)
 
     res <- list(
       lb_coef = lb_coef,
@@ -142,7 +135,7 @@ persuasio4yz <- function(data, y, z, x = NULL,
       ci_lb = ci_lb,
       ci_ub = ci_ub,
       level = level,
-      method = "bootstrap",
+      method = method,
       n = n,
       outcome = y,
       instrument = z,
