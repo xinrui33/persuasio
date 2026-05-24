@@ -37,7 +37,7 @@ A list with:
 }
 \description{
 \strong{aprub} estimates the upper bound on the average persuasion rate (APR).
-\emph{varlist} should include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in
+\emph{veclist} should include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in
 order. Here, \emph{depvar} is binary outcomes (\emph{y}), \emph{treatrvar} is binary
 treatment (\emph{t}), \emph{instrvar} is binary instruments (\emph{z}), and \emph{covariates}
 (\emph{x}) are optional.

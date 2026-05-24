@@ -34,7 +34,7 @@ A list with:
 }
 \description{
 \strong{aprlb} estimates the lower bound of the average persuasion rate (APR).
-\emph{varlist} should include \emph{depvar} \emph{instrvar} \emph{covariates} in order. Here,
+\emph{veclist} should include \emph{depvar} \emph{instrvar} \emph{covariates} in order. Here,
 \emph{depvar} is binary outcomes (\emph{y}), \emph{instrvar} is binary instruments (\emph{z}),
 and \emph{covariates} (\emph{x}) are optional.
 }

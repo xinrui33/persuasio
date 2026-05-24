@@ -9,6 +9,8 @@
 \arguments{
 \item{x}{object of class "persuasio4ytz2lpr"}
 
+\item{digits}{number of decimal places to display (default is 4)}
+
 \item{...}{unused}
 }
 \description{

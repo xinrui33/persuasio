@@ -37,7 +37,7 @@ A list with:
 }
 }
 \description{
-\strong{lpr4ytz} estimates the local persuasion rate (LPR). \emph{varlist} should
+\strong{lpr4ytz} estimates the local persuasion rate (LPR). \emph{veclist} should
 include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in order. Here, \emph{depvar}
 is binary outcomes (\emph{y}), \emph{treatrvar} is binary treatments (\emph{t}), \emph{instrvar}
 is binary instruments (\emph{z}), and \emph{covariates} (\emph{x}) are optional. There are
