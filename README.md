@@ -1,5 +1,5 @@
 # persuasio
-persuasio: The R module to estimate the effect of persuasion and conduct inference, using the estimators in Jun and Lee (2023, Journal of Political Economy, https://doi.org/10.1086/724114). An eponymous Stata package is posted on the Statistical Software Components (SSC) archive.
+persuasio: The R module to estimate the effect of persuasion and conduct inference, using the estimators in Jun and Lee (2023, Journal of Political Economy, https://doi.org/10.1086/724114). A Stata package with the same name is posted on the Statistical Software Components (SSC) archive.
 
 persuasio/
 │

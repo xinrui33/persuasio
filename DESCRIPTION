@@ -13,14 +13,15 @@ Authors@R:
         given = "Sokbae",
         family = "Lee",
         email = "sl3841@columbia.edu",
-        role = c("aut", "cre")
-      )
+        role = c("aut")
+      ),
     person(
     given = "Xinrui",
     family = "Chen",
     email = "xc2731@columbia.edu",
-    role = c("aut")
-  )
+    role = c("aut", "cre"),
+    comment = "R implementation of the Stata package with the same name"
+    )
     )
 Description: This repository contains persuasio command that estimates the effect of persuasion and conducts inference, using the estimators in Jun and Lee (2023, Journal of Political Economy, https://doi.org/10.1086/724114).
 License: GPL (>= 3)
