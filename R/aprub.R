@@ -163,8 +163,8 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       fmla_A <- as.formula(paste("A ~", fmla))
       fmla_B <- as.formula(paste("B ~", fmla))
 
-      fA <- lm(fmla_A, data = df[z_var == 1, ])
-      fA <- lm(fmla_A, data = df[z_var == 0, ])
+      fA <- lm(fmla_A, data = data[z_var == 1, ])
+      fA <- lm(fmla_A, data = data[z_var == 0, ])
 
       yhat1 <- predict(fA, newdata = data)
       yhat0 <- predict(fB, newdata = data)
