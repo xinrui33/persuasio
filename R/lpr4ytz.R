@@ -32,39 +32,32 @@
 #' @export
 lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
-  # 1. input checks
-  model <- match.arg(model, choices = c("no_interaction", "interaction"))
+  model <- match.arg(model, c("no_interaction", "interaction"))
 
-  if (model == "interaction" && is.null(X)) {
+  if (model == "interaction" && is.null(x)) {
     warning("model='interaction' ignored because X is NULL")
+    model <- "no_interaction"
   }
 
-  yv <- data[[y]]
-  tv <- data[[t]]
-  zv <- data[[z]]
+  y_var <- data[[y]]
+  t_var <- data[[t]]
+  z_var <- data[[z]]
 
-  if (!all(yv %in% c(0,1))) stop(y, " must be binary")
-  if (!all(tv %in% c(0,1))) stop(t, " must be binary")
-  if (!all(zv %in% c(0,1))) stop(z, " must be binary")
+  if (!all(y_var %in% c(0,1))) stop(y, " must be binary")
+  if (!all(t_var %in% c(0,1))) stop(t, " must be binary")
+  if (!all(z_var %in% c(0,1))) stop(z, " must be binary")
 
-  # helper variable (denominator structure)
-  data$den_lpr <- (1 - data[[y]]) * (1 - data[[t]])
+  # lpr denominator
+  data$den_lpr <- (1 - y_var) * (1 - t_var)
 
-  n <- nrow(data)
+  # No covariates or no interaction
 
-  # CASE 1: NO COVARIATES OR NO INTERACTION
+  if (is.null(x) || model == "no_interaction") {
 
-  if (model == "no_interaction") {
+    fmla <- if (!is.null(x)) paste(c(z, data[[x]]), collapse = " + ") else z
 
-    rhs <- if (!is.null(x)) {
-      paste(c(z, x), collapse = " + ")
-    } else {
-      z
-    }
-
-    # numerator and denominator models
-    fit_num <- lm(as.formula(paste(y, "~", rhs)), data = data)
-    fit_den <- lm(as.formula(paste("den_lpr ~", rhs)), data = data)
+    fit_num <- lm(as.formula(paste(y, "~", fmla)), data = data)
+    fit_den <- lm(as.formula(paste("den_lpr ~", fmla)), data = data)
 
     X1 <- model.matrix(fit_num)
     X2 <- model.matrix(fit_den)
@@ -72,7 +65,8 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     e1 <- residuals(fit_num)
     e2 <- residuals(fit_den)
 
-    # sandwich components
+    # sandwich vcov
+    n <- nrow(data)
     B1 <- solve(crossprod(X1))
     B2 <- solve(crossprod(X2))
 
@@ -93,14 +87,14 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     )
 
     V <- B %*% M %*% B
-    V <- V * (n / (n - 1))
+    V <- V * (n / (n - 1)) # Stata small sample adjustment
 
-    # coefficient extraction
-    beta_num <- coef(fit_num)[z]
-    beta_den <- coef(fit_den)[z]
+    # extract coefficients
+    beta_num <- coef(fit_num)[z_var]
+    beta_den <- coef(fit_den)[z_var]
 
-    idx1 <- which(colnames(X1) == z)
-    idx2 <- k1 + which(colnames(X2) == z)
+    idx1 <- which(colnames(X1) == z_var)
+    idx2 <- k1 + which(colnames(X2) == z_var)
 
     # LPR estimate
     lpr <- beta_num / (-beta_den)
@@ -112,43 +106,47 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
     se <- sqrt(G %*% V %*% t(G))
 
-    ci <- c(
-      lwr = lpr - qnorm(0.975) * se,
-      upr = lpr + qnorm(0.975) * se
-    )
+    # 95% CI
+    z_score <- qnorm(0.975)
+
+    ci_lower <- lpr - z_score * se
+    ci_upper <- lpr + z_score * se
 
     res <- list(
       lpr = as.numeric(lpr),
       se = as.numeric(se),
-      ci_lb = as.numeric(ci["lwr"]),
-      ci_ub = as.numeric(ci["upr"]),
+      ci_lb = as.numeric(ci_lower),
+      ci_ub = as.numeric(ci_upper),
       n = n,
-      outcome = y,
-      treatment = t,
-      instrument = z,
+      outcome = y_var,
+      treatment = t_var,
+      instrument = z_var,
       covariates = x,
-      model = model,
-      case = "no_interaction"
+      model = model
     )
 
     class(res) <- "lpr4ytz"
     return(res)
   }
 
-  # CASE 2: INTERACTION MODEL
-  if (model == "interaction") {
+  # With covariates and interaction
+  else {
+    x_var <- data[[x]]
+    fmla <- paste(x, collapse = " + ")
 
-    rhs <- paste(x, collapse = " + ")
+    get_pred <- function(outcome, val) {
 
-    get_pred <- function(outcome_var, z_val) {
-      df_sub <- data[data[[z]] == z_val, , drop = FALSE]
-      fit <- lm(as.formula(paste(outcome_var, "~", rhs)), data = df_sub)
-      p <- predict(fit, newdata = data)
-      pmin(pmax(p, 0), 1)
+      df_sub <- data[z_var == val, , drop = FALSE]
+
+      fit <- lm(as.formula(paste(outcome, "~", fmla)), data = df_sub)
+
+      pred <- predict(fit, newdata = data)
+
+      return(pmin(pmax(pred, 0), 1))
     }
 
-    y1 <- get_pred(y, 1)
-    y0 <- get_pred(y, 0)
+    y1 <- get_pred(y_var, 1)
+    y0 <- get_pred(y_var, 0)
 
     den1 <- get_pred("den_lpr", 1)
     den0 <- get_pred("den_lpr", 0)
@@ -163,13 +161,13 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
-      n = n,
-      outcome = y,
-      treatment = t,
-      instrument = z,
-      covariates = x,
+      n = nrow(data),
+      outcome = y_var,
+      treatment = t_var,
+      instrument = z_var,
+      covariates = x_var,
       model = model,
-      case = "interaction"
+      note = "Use bootstrap for SE (recommended 1000 reps)"
     )
 
     class(res) <- "lpr4ytz"
