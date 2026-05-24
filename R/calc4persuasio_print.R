@@ -6,7 +6,7 @@
 print.calc4persuasio <- function(x, digits = 4, ...) {
 
   cat("\n")
-  cat("calc4persuasio: APR and LPR bounds\n\n")
+  cat("APR and LPR bounds given Pr(y=1|z) and optionally Pr(t=1|z)) for z=0,1\n\n")
 
   cat("Case: ", x$case, "\n\n", sep = "")
 

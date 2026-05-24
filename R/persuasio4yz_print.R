@@ -5,7 +5,7 @@
 print.persuasio4yz <- function(x, digits = 4, ...) {
 
   cat("\n")
-  cat("Average Persuasion Rate for binary outcomes and binary instruments\n\n")
+  cat("Average persuasion rate for binary outcomes and binary instruments\n\n")
 
   if (!is.null(x$title)) {
     cat("Title: ", x$title, "\n\n", sep = "")

@@ -50,9 +50,9 @@
 #'
 #' @export
 persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
-                              level = 0.95,
                               model = "no_interaction",
                               method = "normal",
+                              level = 0.95,
                               nboot = 50,
                               title = NULL,
                               seed = NULL) {
@@ -68,13 +68,11 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
   n <- nrow(data)
   alpha <- 1 - level
 
-  # =========================================================
-  # NORMAL APPROXIMATION
-  # =========================================================
+  # Normal approximation
   if (method == "normal") {
 
     if (is.na(se)) {
-      stop("Normal CI not available (SE is NA). Use method='bootstrap'.")
+      stop("Normal approximation not available: lower-bound SE is NA (likely due to covariates). Use method='bootstrap'.")
     }
 
     z_crit <- qnorm(1 - alpha / 2)
@@ -88,7 +86,7 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
       ci_ub = as.numeric(ci_ub),
       se = as.numeric(se),
       level = level,
-      method = "normal",
+      method = method,
       n = n,
       outcome = y,
       treatment = t,
@@ -102,9 +100,7 @@ persuasio4ytz2lpr <- function(data, y, t, z, x = NULL,
     return(res)
   }
 
-  # =========================================================
-  # BOOTSTRAP
-  # =========================================================
+  # Bootstrap
   if (method == "bootstrap") {
 
     boot <- numeric(nboot)

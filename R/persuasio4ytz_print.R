@@ -5,7 +5,7 @@
 print.persuasio4ytz <- function(x, digits = 4, ...) {
 
   cat("\n")
-  cat("Average Persuasion Rate Inference for binary outcomes, binary treatments and binary instruments\n\n")
+  cat("Average persuasion rate for binary outcomes, binary treatments and binary instruments\n\n")
 
   if (!is.null(x$title)) {
     cat("Title: ", x$title, "\n\n", sep = "")
@@ -35,8 +35,6 @@ print.persuasio4ytz <- function(x, digits = 4, ...) {
   if (x$method == "bootstrap") {
     cat(sprintf("Bootstrap replications: %s\n", x$nboot))
   }
-
-  cat("\nNote: Based on persuasio4ytz bounding framework.\n")
 
   invisible(x)
 }
