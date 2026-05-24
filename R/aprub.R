@@ -1,7 +1,7 @@
 #' Estimate the upper bound of the average persuasion rate
 #'
 #' __aprub__ estimates the upper bound on the average persuasion rate (APR).
-#' _varlist_ should include _depvar_ _treatrvar_ _instrvar_ _covariates_ in
+#' _veclist_ should include _depvar_ _treatrvar_ _instrvar_ _covariates_ in
 #' order. Here, _depvar_ is binary outcomes (_y_), _treatrvar_ is binary
 #' treatment (_t_), _instrvar_ is binary instruments (_z_), and _covariates_
 #' (_x_) are optional.
@@ -46,25 +46,25 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     model <- "no_interaction"
   }
 
-  y_var <- data[[y]]
-  z_var <- data[[z]]
-  t_var <- data[[t]]
+  y_vec <- data[[y]]
+  z_vec <- data[[z]]
+  t_vec <- data[[t]]
 
-  if (!all(y_var %in% c(0,1))) stop(paste(y, " must be binary"))
-  if (!all(t_var %in% c(0,1))) stop(paste(t, " must be binary"))
-  if (!all(z_var %in% c(0,1))) stop(paste(z, " must be binary"))
+  if (!all(y_vec %in% c(0,1))) stop(paste(y, " must be binary"))
+  if (!all(t_vec %in% c(0,1))) stop(paste(t, " must be binary"))
+  if (!all(z_vec %in% c(0,1))) stop(paste(z, " must be binary"))
 
-  A <- y_var * t_var + (1 - t_Var)
-  B <- y_var * (1 - t_var)
+  A <- y_vec * t_vec + (1 - t_vec)
+  B <- y_vec * (1 - t_vec)
 
   # Case 1: No covariates
   if (is.null(x)) {
 
-    fA <- lm(as.formula(paste(A, "~", z_var)), data = data)
-    fB <- lm(as.formula(paste(B, "~", z_var)), data = data)
+    fA <- lm(as.formula(paste(A, "~", z)), data = data)
+    fB <- lm(as.formula(paste(B, "~", z)), data = data)
 
     alpha_0 <- coef(fA)["(Intercept)"]
-    alpha_1 <- coef(fA)[z_var]
+    alpha_1 <- coef(fA)[z]
     beta_0  <- coef(fB)["(Intercept)"]
 
     ub_coef <- (alpha_0 + alpha_1 - beta_0) / (1 - beta_0)
@@ -103,12 +103,13 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
     # delta methodc(analogous to Stata nlcom)
     idx_a0 <- which(colnames(X1) == "(Intercept)")
-    idx_a1 <- which(colnames(X1) == z_var)
+    idx_a1 <- which(colnames(X1) == z)
     idx_b0 <- k1 + which(colnames(X2) == "(Intercept)")
 
     G <- matrix(0, nrow = 1, ncol = k)
-    G[1, idx1] <- 1 / (1 - beta_0)
-    G[1, idx2] <- -(alpha_0 + alpha_1 - 1) / ((1 - beta_0)^2)
+    G[1, idx_a0] <- 1 / (1 - beta_0)
+    G[1, idx_a1] <- 1 / (1 - beta_0)
+    G[1, idx_b0] <- -(alpha_0 + alpha_1 - 1) / ((1 - beta_0)^2)
 
     se <- sqrt(as.numeric(G %*% V %*% t(G)))
 
@@ -122,9 +123,9 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       ub_se = as.numeric(se),
       ci_lb = as.numeric(ci_lb),
       ci_ub = as.numeric(ci_ub),
-      outcome = y_var,
-      treatment = t_var,
-      instrument = z_var,
+      outcome = y,
+      treatment = t,
+      instrument = z,
       covariates = x,
       model = model,
       n = n
@@ -137,8 +138,8 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   # Case 2: With covariates
   else {
 
-    x_var <- data[[x]]
-    fmla <- paste(x_var, collapse = " + ")
+    x_vec <- data[[x]]
+    fmla <- paste(x, collapse = " + ")
 
     if (model == "no_interaction") {
 
@@ -151,11 +152,11 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       yhat_A <- predict(fA)
       yhat_B <- predict(fB)
 
-      beta_A <- coef(fA)[z_var]
-      beta_B <- coef(fB)[z_var]
+      beta_A <- coef(fA)[z]
+      beta_B <- coef(fB)[z]
 
-      yhat1 <- yhat_A + beta_A - beta_A * z_var
-      yhat0 <- yhat_B - beta_B * z_var
+      yhat1 <- yhat_A + beta_A - beta_A * z_vec
+      yhat0 <- yhat_B - beta_B * z_vec
     }
 
     if (model == "interaction") {
@@ -163,8 +164,8 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       fmla_A <- as.formula(paste("A ~", fmla))
       fmla_B <- as.formula(paste("B ~", fmla))
 
-      fA <- lm(fmla_A, data = data[z_var == 1, ])
-      fA <- lm(fmla_A, data = data[z_var == 0, ])
+      fA <- lm(fmla_A, data = data[z_vec == 1, ])
+      fA <- lm(fmla_A, data = data[z_vec == 0, ])
 
       yhat1 <- predict(fA, newdata = data)
       yhat0 <- predict(fB, newdata = data)
@@ -184,10 +185,10 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       ub_se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
-      outcome = y_var,
-      treatment = t_var,
-      instrument = z_var,
-      covariates = x_var,
+      outcome = y,
+      treatment = t,
+      instrument = z,
+      covariates = x,
       model = model,
       n = nrow(data)
     )

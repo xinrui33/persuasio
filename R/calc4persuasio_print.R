@@ -1,5 +1,6 @@
 #' Print method for calc4persuasio
 #' @param x object of class "calc4persuasio"
+#' @param digits number of decimal places to display (default is 4)
 #' @param ... unused
 #' @export
 

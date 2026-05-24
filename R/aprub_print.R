@@ -1,5 +1,6 @@
 #' Print method for aprub objects
 #' @param x object of class "aprub"
+#' @param digits number of decimal places to display (default is 4)
 #' @param ... unused
 #' @export
 print.aprub <- function(x, digits = 4, ...) {

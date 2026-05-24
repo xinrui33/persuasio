@@ -1,6 +1,6 @@
 #' Estimate the local persuasion rate
 #'
-#' __lpr4ytz__ estimates the local persuasion rate (LPR). _varlist_ should
+#' __lpr4ytz__ estimates the local persuasion rate (LPR). _veclist_ should
 #' include _depvar_ _treatrvar_ _instrvar_ _covariates_ in order. Here, _depvar_
 #' is binary outcomes (_y_), _treatrvar_ is binary treatments (_t_), _instrvar_
 #' is binary instruments (_z_), and _covariates_ (_x_) are optional. There are
@@ -39,16 +39,16 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     model <- "no_interaction"
   }
 
-  y_var <- data[[y]]
-  t_var <- data[[t]]
-  z_var <- data[[z]]
+  y_vec <- data[[y]]
+  t_vec <- data[[t]]
+  z_vec <- data[[z]]
 
-  if (!all(y_var %in% c(0,1))) stop(y, " must be binary")
-  if (!all(t_var %in% c(0,1))) stop(t, " must be binary")
-  if (!all(z_var %in% c(0,1))) stop(z, " must be binary")
+  if (!all(y_vec %in% c(0,1))) stop(y, " must be binary")
+  if (!all(t_vec %in% c(0,1))) stop(t, " must be binary")
+  if (!all(z_vec %in% c(0,1))) stop(z, " must be binary")
 
   # lpr denominator
-  data$den_lpr <- (1 - y_var) * (1 - t_var)
+  data$den_lpr <- (1 - y_vec) * (1 - t_vec)
 
   # No covariates or no interaction
 
@@ -90,11 +90,11 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     V <- V * (n / (n - 1)) # Stata small sample adjustment
 
     # extract coefficients
-    beta_num <- coef(fit_num)[z_var]
-    beta_den <- coef(fit_den)[z_var]
+    beta_num <- coef(fit_num)[z]
+    beta_den <- coef(fit_den)[z]
 
-    idx1 <- which(colnames(X1) == z_var)
-    idx2 <- k1 + which(colnames(X2) == z_var)
+    idx1 <- which(colnames(X1) == z)
+    idx2 <- k1 + which(colnames(X2) == z)
 
     # LPR estimate
     lpr <- beta_num / (-beta_den)
@@ -118,9 +118,9 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       ci_lb = as.numeric(ci_lower),
       ci_ub = as.numeric(ci_upper),
       n = n,
-      outcome = y_var,
-      treatment = t_var,
-      instrument = z_var,
+      outcome = y,
+      treatment = t,
+      instrument = z,
       covariates = x,
       model = model
     )
@@ -131,12 +131,12 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   # With covariates and interaction
   else {
-    x_var <- data[[x]]
+    x_vec <- data[[x]]
     fmla <- paste(x, collapse = " + ")
 
     get_pred <- function(outcome, val) {
 
-      df_sub <- data[z_var == val, , drop = FALSE]
+      df_sub <- data[z_vec == val, , drop = FALSE]
 
       fit <- lm(as.formula(paste(outcome, "~", fmla)), data = df_sub)
 
@@ -145,8 +145,8 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       return(pmin(pmax(pred, 0), 1))
     }
 
-    y1 <- get_pred(y_var, 1)
-    y0 <- get_pred(y_var, 0)
+    y1 <- get_pred(y, 1)
+    y0 <- get_pred(y, 0)
 
     den1 <- get_pred("den_lpr", 1)
     den0 <- get_pred("den_lpr", 0)
@@ -162,10 +162,10 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       ci_lb = NA_real_,
       ci_ub = NA_real_,
       n = nrow(data),
-      outcome = y_var,
-      treatment = t_var,
-      instrument = z_var,
-      covariates = x_var,
+      outcome = y,
+      treatment = t,
+      instrument = z,
+      covariates = x,
       model = model,
       note = "Use bootstrap for SE (recommended 1000 reps)"
     )

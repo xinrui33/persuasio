@@ -1,5 +1,6 @@
 #' Print method for persuasio4ytz
 #' @param x object of class "persuasio4ytz"
+#' @param digits number of decimal places to display (default is 4)
 #' @param ... unused
 #' @export
 print.persuasio4ytz <- function(x, digits = 4, ...) {

@@ -1,5 +1,6 @@
 #' Print method for aprlb objects
 #' @param x object of class "aprlb"
+#' @param digits number of decimal places to display (default is 4)
 #' @param ... unused
 #' @export
 print.aprlb <- function(x, digits = 4, ...) {

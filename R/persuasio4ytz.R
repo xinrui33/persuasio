@@ -137,7 +137,7 @@ persuasio4ytz <- function(data, y, t, z, x = NULL,
       idx <- sample(seq_len(n), size = n, replace = TRUE)
       d_b <- data[idx, , drop = FALSE]
 
-      lb_b <- try(aprlb(d_b, y, z, x, model, quiet = TRUE), silent = TRUE)
+      lb_b <- try(aprlb(d_b, y, z, x, model), silent = TRUE)
       ub_b <- try(aprub(d_b, y, t, z, x, model), silent = TRUE)
 
       lb_boot[b] <- if (inherits(lb_b, "try-error")) NA else lb_b$lb_coef

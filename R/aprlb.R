@@ -1,7 +1,7 @@
 #' Estimate the lower bound of the average persuasion rate
 #'
 #' __aprlb__ estimates the lower bound of the average persuasion rate (APR).
-#' _varlist_ should include _depvar_ _instrvar_ _covariates_ in order. Here,
+#' _veclist_ should include _depvar_ _instrvar_ _covariates_ in order. Here,
 #' _depvar_ is binary outcomes (_y_), _instrvar_ is binary instruments (_z_),
 #' and _covariates_ (_x_) are optional.
 #'
@@ -43,20 +43,20 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
     model <- "no_interaction"
   }
 
-  y_var <- data[[y]]
-  z_var <- data[[z]]
+  y_vec <- data[[y]]
+  z_vec <- data[[z]]
 
-  if (!all(y_var %in% c(0,1))) stop(paste(y, " must be binary"))
-  if (!all(z_var %in% c(0,1))) stop(paste(z, " must be binary"))
+  if (!all(y_vec %in% c(0,1))) stop(paste(y, " must be binary"))
+  if (!all(z_vec %in% c(0,1))) stop(paste(z, " must be binary"))
 
   # Case 1: No covariates
   if (is.null(x)) {
 
-    fmla <- as.formula(paste(y_var, "~", z_var))
+    fmla <- as.formula(paste(y, "~", z))
 
     fit <- lm(fmla, data = data)
 
-    est_z <- coef(fit)[z_var]
+    est_z <- coef(fit)[z]
     est_0 <- coef(fit)["(Intercept)"]
 
     # lower bound estimate
@@ -74,8 +74,22 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
     vcov <- XtX_inv %*% meat %*% XtX_inv
     vcov <- vcov * (n / (n - k)) # HC1 correction
 
-    V <- vcov[c(z_var, "(Intercept)"),
-              c(z_var, "(Intercept)")]
+    coef_names <- colnames(Xmat)
+
+    idx <- match(c(z, "(Intercept)"), coef_names)
+
+    if (any(is.na(idx))) {
+
+      missing <- c(z, "(Intercept)")[is.na(idx)]
+
+      stop(
+        "Required coefficient(s) not found in model matrix: ",
+        paste(missing, collapse = ", "),
+        "\nThis may be due to: missing intercept, collinearity, or factor coding."
+      )
+    }
+
+    V <- vcov[idx, idx, drop = FALSE]
 
     # gradient matrix
     g <- matrix(c(
@@ -95,8 +109,8 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
       lb_se = as.numeric(se),
       ci_lb = as.numeric(ci_lb),
       ci_ub = as.numeric(ci_ub),
-      outcome = y_var,
-      instrument = z_var,
+      outcome = y,
+      instrument = z,
       covariates = x,
       model = model,
       n = n
@@ -110,34 +124,34 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
   else {
 
-    x_var <- data[[x]]
+    x_vec <- data[[x]]
 
-    x_formula <- paste(x_var, collapse = " + ")
+    x_formula <- paste(x, collapse = " + ")
 
     if (model == "no_interaction") {
 
       fmla <- as.formula(
-        paste(y_var, "~", z_var, "+", x_formula)
+        paste(y, "~", z, "+", x_formula)
       )
 
       fit <- lm(fmla, data = data)
 
       yhat <- predict(fit)
 
-      beta_z <- coef(fit)[z_var]
+      beta_z <- coef(fit)[z]
 
-      yhat1 <- yhat + beta_z - beta_z * z_var
-      yhat0 <- yhat - beta_z * z_var
+      yhat1 <- yhat + beta_z * (1 - z_vec)
+      yhat0 <- yhat - beta_z * z_vec
     }
 
     if (model == "interaction") {
 
       fmla <- as.formula(
-        paste(y_var, "~", x_formula)
+        paste(y, "~", x_formula)
       )
 
-      fit1 <- lm(fmla, data = data[z_var == 1, ])
-      fit0 <- lm(fmla, data = data[z_var == 0, ])
+      fit1 <- lm(fmla, data = data[z_vec == 1, ])
+      fit0 <- lm(fmla, data = data[z_vec == 0, ])
 
       yhat1 <- predict(fit1, newdata = data)
       yhat0 <- predict(fit0, newdata = data)
@@ -153,19 +167,14 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
     lb_coef <- lb_num / lb_den
 
-    if (!quiet) {
-      cat("\nNotes: It is recommended to use 'persuasio' for causal inference.\n")
-      cat("       Standard errors are missing if covariates are present.\n\n")
-    }
-
     res <- list(
       lb_coef = as.numeric(lb_coef),
       lb_se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
-      outcome = y_var,
-      instrument = z_var,
-      covariates = x_var,
+      outcome = y,
+      instrument = z,
+      covariates = x,
       model = model,
       n = nrow(data)
     )

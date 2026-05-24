@@ -7,4 +7,15 @@
 \description{
 A package for persuasion rate estimation.
 }
+\author{
+\strong{Maintainer}: Xinrui Chen \email{xc2731@columbia.edu} (R implementation of the Stata package with the same name)
+
+Authors:
+\itemize{
+  \item Xinrui Chen \email{xc2731@columbia.edu} (R implementation of the Stata package with the same name)
+  \item Sung Jae Jun \email{suj14@psu.edu}
+  \item Sokbae Lee \email{sl3841@columbia.edu}
+}
+
+}
 \keyword{internal}

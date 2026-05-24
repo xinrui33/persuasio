@@ -1,5 +1,6 @@
 #' Print method for lpr4ytz objects
 #' @param x object of class "lpr4ytz"
+#' @param digits number of decimal places to display (default is 4)
 #' @param ... unused
 #' @export
 print.lpr4ytz <- function(x, digits = 4, ...) {
