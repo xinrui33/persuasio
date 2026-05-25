@@ -138,8 +138,9 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   # Case 2: With covariates
   else {
 
-    x_vec <- data[[x]]
     fmla <- paste(x, collapse = " + ")
+    # "Using formula(x) is deprecated when x is a character vector of length > 1.\n  Consider formula(paste(x, collapse = \" \")) instead."
+    #Using formula(x) is deprecated when x is a character vector of length > 1. \n Consider formula(paste(x, collapse = " ")) instead.
 
     if (model == "no_interaction") {
 

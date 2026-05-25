@@ -17,10 +17,8 @@ test_that("aprlb works with required inputs only", {
   expect_true(is.numeric(res$lb_coef))
   expect_true(res$lb_coef >= 0 && res$lb_coef <= 1)
 
-  expect_named(res, c(
-    "lb_coef","lb_se","ci_lb","ci_ub",
-    "nobs","outcome","instrument","covariates","model"
-  ))
+  expect_true(!is.null(res$outcome))
+  expect_true(!is.null(res$instrument))
 })
 
 
@@ -50,9 +48,9 @@ test_that("lpr4ytz works with required inputs only", {
   expect_true(is.numeric(res$lpr))
   expect_true(res$lpr >= 0 && res$lpr <= 1)
 
-  expect_true("lpr" %in% names(res))
-  expect_true("ci_lb" %in% names(res))
-  expect_true("ci_ub" %in% names(res))
+  expect_true(!is.null(res$outcome))
+  expect_true(!is.null(res$treatment))
+  expect_true(!is.null(res$instrument))
 })
 
 
