@@ -1,5 +1,7 @@
 ---
-title: "persuasio_vignette"
+title: "Simple Causal Inference of Persuasion Effects with 'persuasio'"
+author: "Xinrui Chen"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{persuasio_vignette}
@@ -13,6 +15,10 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+## What is this for?
+
+This shows the basic usage of the **persuasio** package for the causal inference of persuasion effects (@JunLee2023).
 
 ```{r setup}
 library(persuasio)
