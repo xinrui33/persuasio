@@ -46,8 +46,8 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
   y_vec <- data[[y]]
   z_vec <- data[[z]]
 
-  if (!all(y_vec %in% c(0,1))) stop(paste(y, " must be binary"))
-  if (!all(z_vec %in% c(0,1))) stop(paste(z, " must be binary"))
+  if (!all(y_vec %in% c(0,1))) stop(paste0(y, "must be binary"))
+  if (!all(z_vec %in% c(0,1))) stop(paste0(z, "must be binary"))
 
   # Case 1: No covariates
   if (is.null(x)) {

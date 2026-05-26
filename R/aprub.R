@@ -50,9 +50,9 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   z_vec <- data[[z]]
   t_vec <- data[[t]]
 
-  if (!all(y_vec %in% c(0,1))) stop(paste(y, " must be binary"))
-  if (!all(t_vec %in% c(0,1))) stop(paste(t, " must be binary"))
-  if (!all(z_vec %in% c(0,1))) stop(paste(z, " must be binary"))
+  if (!all(y_vec %in% c(0,1))) stop(paste0(y, "must be binary"))
+  if (!all(t_vec %in% c(0,1))) stop(paste0(t, "must be binary"))
+  if (!all(z_vec %in% c(0,1))) stop(paste0(z, "must be binary"))
 
   data$A <- y_vec * t_vec + (1 - t_vec)
   data$B <- y_vec * (1 - t_vec)
