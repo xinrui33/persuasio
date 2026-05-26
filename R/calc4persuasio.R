@@ -28,7 +28,7 @@ calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
   # Input validation
   check01 <- function(x, name) {
     if (!is.null(x) && (x < 0 || x > 1)) {
-      stop(name, " must be in [0,1]")
+      stop(paste0(name, "must be in [0,1]"))
     }
   }
 

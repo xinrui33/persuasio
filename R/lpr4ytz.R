@@ -43,9 +43,9 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   t_vec <- data[[t]]
   z_vec <- data[[z]]
 
-  if (!all(y_vec %in% c(0,1))) stop(y, " must be binary")
-  if (!all(t_vec %in% c(0,1))) stop(t, " must be binary")
-  if (!all(z_vec %in% c(0,1))) stop(z, " must be binary")
+  if (!all(y_vec %in% c(0,1))) stop(paste0(y, "must be binary"))
+  if (!all(t_vec %in% c(0,1))) stop(paste0(t, "must be binary"))
+  if (!all(z_vec %in% c(0,1))) stop(paste0(z, "must be binary"))
 
   # lpr denominator
   data$den_lpr <- (1 - y_vec) * (1 - t_vec)
