@@ -63,13 +63,12 @@ persuasio4yz <- function(data, y, z, x = NULL,
   }
 
   lb <- aprlb(data, y, z, x, model)
-  ub <- aprub(data, y, NULL, z, x, model)
 
   lb_coef <- lb$lb_coef
-  ub_coef <- ub$ub_coef
+  ub_coef <- 1
 
   lb_se <- lb$lb_se
-  ub_se <- ub$ub_se
+  ub_se <- NA
 
   n <- nrow(data)
   alpha <- 1 - level
@@ -86,7 +85,7 @@ persuasio4yz <- function(data, y, z, x = NULL,
     cv <- qnorm(level)
 
     ci_lb <- lb_coef - cv * lb_se
-    ci_ub <- ub_coef + cv * ub_se
+    ci_ub <- 1
 
     res <- list(
       lb_coef = lb_coef,
@@ -109,29 +108,20 @@ persuasio4yz <- function(data, y, z, x = NULL,
   if (method == "bootstrap") {
 
     lb_boot <- numeric(nboot)
-    ub_boot <- numeric(nboot)
 
     for (b in seq_len(nboot)) {
-
       idx <- sample(seq_len(n), size = n, replace = TRUE)
       d_b <- data[idx, , drop = FALSE]
-
       lb_b <- try(aprlb(d_b, y, z, x, model), silent = TRUE)
-      ub_b <- try(aprub(d_b, y, NULL, z, x, model), silent = TRUE)
-
       lb_boot[b] <- if (inherits(lb_b, "try-error")) NA else lb_b$lb_coef
-      ub_boot[b] <- if (inherits(ub_b, "try-error")) NA else ub_b$ub_coef
     }
 
-    lb_boot <- lb_boot[!is.na(lb_boot)]
-    ub_boot <- ub_boot[!is.na(ub_boot)]
-
     ci_lb <- quantile(lb_boot, probs = alpha, na.rm = TRUE)
-    ci_ub <- quantile(ub_boot, probs = 1 - alpha, na.rm = TRUE)
+    ci_ub <- 1
 
     res <- list(
       lb_coef = lb_coef,
-      ub_coef = ub_coef,
+      ub_coef = 1,
       ci_lb = ci_lb,
       ci_ub = ci_ub,
       level = level,
