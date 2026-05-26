@@ -13,7 +13,7 @@ test_that("aprlb works with required inputs only", {
 
   res <- aprlb(df, "y", "z")
 
-  expect_s3_class(res, "list")
+  expect_s3_class(res, "aprlb")
   expect_true(is.numeric(res$lb_coef))
   expect_true(res$lb_coef >= 0 && res$lb_coef <= 1)
 
@@ -28,7 +28,7 @@ test_that("aprub works with required inputs only", {
 
   res <- aprub(df, "y", "t", "z")
 
-  expect_s3_class(res, "list")
+  expect_s3_class(res, "aprub")
   expect_true(is.numeric(res$ub_coef))
   expect_true(res$ub_coef >= 0 && res$ub_coef <= 1)
 
@@ -44,7 +44,7 @@ test_that("lpr4ytz works with required inputs only", {
 
   res <- lpr4ytz(df, "y", "t", "z")
 
-  expect_s3_class(res, "list")
+  expect_s3_class(res, "lpr4ytz")
   expect_true(is.numeric(res$lpr))
   expect_true(res$lpr >= 0 && res$lpr <= 1)
 

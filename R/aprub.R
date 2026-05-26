@@ -54,14 +54,14 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
   if (!all(t_vec %in% c(0,1))) stop(paste(t, " must be binary"))
   if (!all(z_vec %in% c(0,1))) stop(paste(z, " must be binary"))
 
-  A <- y_vec * t_vec + (1 - t_vec)
-  B <- y_vec * (1 - t_vec)
+  data$A <- y_vec * t_vec + (1 - t_vec)
+  data$B <- y_vec * (1 - t_vec)
 
   # Case 1: No covariates
   if (is.null(x)) {
 
-    fA <- lm(as.formula(paste(A, "~", z)), data = data)
-    fB <- lm(as.formula(paste(B, "~", z)), data = data)
+    fA <- lm(as.formula(paste("A ~", z)), data = data)
+    fB <- lm(as.formula(paste("B ~", z)), data = data)
 
     alpha_0 <- coef(fA)["(Intercept)"]
     alpha_1 <- coef(fA)[z]
