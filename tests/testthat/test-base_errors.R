@@ -14,7 +14,7 @@ test_that("aprlb rejects non-binary inputs", {
 
   expect_error(
     aprlb(df_bad, "y", "z"),
-    "is not a 0/1 variable"
+    "must be binary"
   )
 
   df_bad2 <- df
@@ -22,7 +22,7 @@ test_that("aprlb rejects non-binary inputs", {
 
   expect_error(
     aprlb(df_bad2, "y", "z"),
-    "is not a 0/1 variable"
+    "must be binary"
   )
 })
 
@@ -34,7 +34,7 @@ test_that("aprub rejects non-binary treatment", {
 
   expect_error(
     aprub(df_bad, "y", "t", "z"),
-    "is not a 0/1 variable"
+    "must be binary"
   )
 })
 
@@ -46,7 +46,7 @@ test_that("lpr4ytz rejects invalid binary variables", {
 
   expect_error(
     lpr4ytz(df_bad, "y", "t", "z"),
-    "is not a 0/1 variable"
+    "must be binary"
   )
 })
 
