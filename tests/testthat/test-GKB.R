@@ -71,8 +71,8 @@ test_that("calc4persuasio works with GKB summary statistics", {
 
   expect_equal(res$case, "with exposure rates")
 
-  expect_true(res$apr["lower"] <= res_full$apr["upper"])
-  expect_true(res$lpr["lower"] <= res_full$lpr["upper"])
+  expect_true(res$apr["lower"] <= res$apr["upper"])
+  expect_true(res$lpr["lower"] <= res$lpr["upper"])
 
   expect_true(all(is.finite(unlist(res$apr))))
   expect_true(all(is.finite(unlist(res$lpr))))

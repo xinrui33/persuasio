@@ -17,7 +17,7 @@ print.calc4persuasio <- function(x, digits = 4, ...) {
     check.names = FALSE
   )
 
-  cat(format(apr_df, row.names = FALSE), sep = "\n")
+  print(apr_df, row.names = FALSE)
 
   # LPR
   cat("\nLPR bounds:\n")
@@ -27,7 +27,7 @@ print.calc4persuasio <- function(x, digits = 4, ...) {
     check.names = FALSE
   )
 
-  cat(format(lpr_df, row.names = FALSE), sep = "\n")
+  print(lpr_df, row.names = FALSE)
 
   # Inputs
   cat("\nInputs:\n")
