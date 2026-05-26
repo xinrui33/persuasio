@@ -74,8 +74,8 @@ calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
   }
 
   res <- list(
-    apr = c(lower = apr_lb, upper = apr_ub),
-    lpr = c(lower = lpr_lb, upper = lpr_ub),
+    apr = c(lower = as.numeric(apr_lb), upper = as.numeric(apr_ub)),
+    lpr = c(lower = as.numeric(lpr_lb), upper = as.numeric(lpr_ub)),
     inputs = list(y1 = y1, y0 = y0, e1 = e1, e0 = e0),
     case = case
   )

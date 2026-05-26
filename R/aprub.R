@@ -119,8 +119,8 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     ci_ub <- ub_coef + z_score * se
 
     res <- list(
-      ub_coef = as.numeric(ub_coef),
-      ub_se = as.numeric(se),
+      ub_coef = as.numeric(unlist(ub_coef)),
+      ub_se   = as.numeric(unlist(se)),
       ci_lb = as.numeric(unlist(ci_lb)),
       ci_ub = as.numeric(unlist(ci_ub)),
       outcome = y,
@@ -166,7 +166,7 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
       fmla_B <- as.formula(paste("B ~", fmla))
 
       fA <- lm(fmla_A, data = data[z_vec == 1, ])
-      fA <- lm(fmla_A, data = data[z_vec == 0, ])
+      fB <- lm(fmla_B, data = data[z_vec == 0, ])
 
       yhat1 <- predict(fA, newdata = data)
       yhat0 <- predict(fB, newdata = data)
@@ -182,7 +182,7 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     ub_coef <- ub_num / ub_den
 
     res <- list(
-      ub_coef = as.numeric(ub_coef),
+      ub_coef = as.numeric(unlist(ub_coef)),
       ub_se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
