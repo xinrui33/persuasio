@@ -109,14 +109,14 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     # 95% CI
     z_score <- qnorm(0.975)
 
-    ci_lower <- lpr - z_score * se
-    ci_upper <- lpr + z_score * se
+    ci_lb <- lpr - z_score * se
+    ci_ub <- lpr + z_score * se
 
     res <- list(
       lpr = as.numeric(lpr),
       se = as.numeric(se),
-      ci_lb = as.numeric(ci_lower),
-      ci_ub = as.numeric(ci_upper),
+      ci_lb = as.numeric(unlist(ci_lb)),
+      ci_ub = as.numeric(unlist(ci_ub)),
       n = n,
       outcome = y,
       treatment = t,

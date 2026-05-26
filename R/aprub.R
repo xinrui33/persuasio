@@ -121,8 +121,8 @@ aprub <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     res <- list(
       ub_coef = as.numeric(ub_coef),
       ub_se = as.numeric(se),
-      ci_lb = as.numeric(ci_lb),
-      ci_ub = as.numeric(ci_ub),
+      ci_lb = as.numeric(unlist(ci_lb)),
+      ci_ub = as.numeric(unlist(ci_ub)),
       outcome = y,
       treatment = t,
       instrument = z,

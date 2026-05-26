@@ -107,8 +107,8 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
     res <- list(
       lb_coef = as.numeric(lb_coef),
       lb_se = as.numeric(se),
-      ci_lb = as.numeric(ci_lb),
-      ci_ub = as.numeric(ci_ub),
+      ci_lb = as.numeric(unlist(ci_lb)),
+      ci_ub = as.numeric(unlist(ci_ub)),
       outcome = y,
       instrument = z,
       covariates = x,
