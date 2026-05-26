@@ -54,7 +54,7 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   if (is.null(x) || model == "no_interaction") {
 
-    fmla <- if (!is.null(x)) paste(c(z, data[[x]]), collapse = " + ") else z
+    fmla <- if (!is.null(x)) paste(c(z, x), collapse = " + ") else z
 
     fit_num <- lm(as.formula(paste(y, "~", fmla)), data = data)
     fit_den <- lm(as.formula(paste("den_lpr ~", fmla)), data = data)
