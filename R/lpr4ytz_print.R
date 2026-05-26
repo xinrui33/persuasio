@@ -21,9 +21,11 @@ print.lpr4ytz <- function(x, digits = 4, ...) {
     `95% CI Upper` = round(as.numeric(x$ci_ub), digits),
     check.names = FALSE
   )
-  cat(format(out, row.names = FALSE), sep = "\n")
-  if (is.na(x$se)) {
-    cat("\nNote: Standard errors not available (bootstrap recommended).\n")
+
+  print(out, row.names = FALSE)
+
+  if (is.null(x$lb_se) || length(x$lb_se) == 0 || all(is.na(x$lb_se))) {
+    cat("\nStandard errors not available for this specification.\n")
   }
   cat("\n")
 

@@ -13,8 +13,10 @@ test_that("persuasio4ytz print output works", {
   out <- capture.output(print(res))
 
   expect_true(length(out) > 0)
-  expect_true(any(grepl("persuasio4ytz", out, fixed = TRUE)) ||
-                any(grepl("Average Persuasion Rate", out)))
+
+  expect_true(any(grepl("Outcome:", out)))
+  expect_true(any(grepl("Treatment:", out)))
+  expect_true(any(grepl("Instrument:", out)))
 })
 
 
@@ -25,8 +27,10 @@ test_that("persuasio4yz print output works", {
   out <- capture.output(print(res))
 
   expect_true(length(out) > 0)
-  expect_true(any(grepl("persuasio4yz", out, fixed = TRUE)) ||
-                any(grepl("Lower Bound", out)))
+
+  expect_true(any(grepl("Outcome:", out)))
+  expect_true(any(grepl("Treatment:", out)))
+  expect_true(any(grepl("Instrument:", out)))
 })
 
 
@@ -37,8 +41,10 @@ test_that("persuasio4ytz2lpr print output works", {
   out <- capture.output(print(res))
 
   expect_true(length(out) > 0)
-  expect_true(any(grepl("Local Persuasion", out)) ||
-                any(grepl("lpr", out, ignore.case = TRUE)))
+
+  expect_true(any(grepl("Outcome:", out)))
+  expect_true(any(grepl("Treatment:", out)))
+  expect_true(any(grepl("Instrument:", out)))
 })
 
 

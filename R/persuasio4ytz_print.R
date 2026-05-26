@@ -29,7 +29,7 @@ print.persuasio4ytz <- function(x, digits = 4, ...) {
     check.names = FALSE
   )
 
-  cat(format(out, row.names = FALSE), sep = "\n")
+  print(out, row.names = FALSE)
 
   cat("\n")
   cat(sprintf("Confidence level: %.0f%%\n", x$level * 100))

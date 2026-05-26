@@ -20,16 +20,17 @@ print.aprub <- function(x, digits = 4, ...) {
   cat("\n")
 
   cat("Estimates:\n")
-  df <- data.frame(
+  out <- data.frame(
     Estimate       = round(as.numeric(x$ub_coef), digits),
     `Std. Error`   = round(as.numeric(x$ub_se), digits),
     `95% CI Lower` = round(as.numeric(x$ci_lb), digits),
     `95% CI Upper` = round(as.numeric(x$ci_ub), digits),
     check.names = FALSE
   )
-  cat(format(df, row.names = FALSE), sep = "\n")
 
-  if (is.na(x$lb_se)) {
+  print(out, row.names = FALSE)
+
+  if (is.null(x$lb_se) || length(x$lb_se) == 0 || all(is.na(x$lb_se))) {
     cat("\nStandard errors not available for this specification.\n")
   }
   cat("\n")
