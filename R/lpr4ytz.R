@@ -113,8 +113,8 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     ci_ub <- lpr + z_score * se
 
     res <- list(
-      lpr = as.numeric(lpr),
-      se = as.numeric(se),
+      lpr = as.numeric(unlist(lpr)),
+      se = as.numeric(unlist(se)),
       ci_lb = as.numeric(unlist(ci_lb)),
       ci_ub = as.numeric(unlist(ci_ub)),
       n = n,
@@ -131,7 +131,7 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
 
   # With covariates and interaction
   else {
-    x_vec <- data[[x]]
+
     fmla <- paste(x, collapse = " + ")
 
     get_pred <- function(outcome, val) {
@@ -157,7 +157,7 @@ lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {
     lpr <- num / den
 
     res <- list(
-      lpr = as.numeric(lpr),
+      lpr = as.numeric(unlist(lpr)),
       se = NA_real_,
       ci_lb = NA_real_,
       ci_ub = NA_real_,
