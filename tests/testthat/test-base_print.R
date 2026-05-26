@@ -28,7 +28,7 @@ test_that("print.lpr4ytz works and returns invisibly", {
 
   res <- lpr4ytz(df, "y", "t", "z")
 
-  expect_output(print(res), "local_persuasion_rate")
+  expect_output(print(res), "lpr")
   expect_invisible(print(res))
 })
 

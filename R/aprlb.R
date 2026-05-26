@@ -124,8 +124,6 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
   else {
 
-    x_vec <- data[[x]]
-
     x_formula <- paste(x, collapse = " + ")
 
     if (model == "no_interaction") {
