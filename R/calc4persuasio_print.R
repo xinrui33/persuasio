@@ -12,19 +12,21 @@ print.calc4persuasio <- function(x, digits = 4, ...) {
   # APR
   cat("APR bounds:\n")
   apr_df <- data.frame(
-    Lower = round(x$apr["lower"], digits),
-    Upper = round(x$apr["upper"], digits),
+    Lower = round(as.numeric(x$apr[["lower"]])[1], digits),
+    Upper = round(as.numeric(x$apr[["upper"]])[1], digits),
     check.names = FALSE
   )
+
   cat(format(apr_df, row.names = FALSE), sep = "\n")
 
   # LPR
   cat("\nLPR bounds:\n")
   lpr_df <- data.frame(
-    Lower = round(x$lpr["lower"], digits),
-    Upper = round(x$lpr["upper"], digits),
+    Lower = round(as.numeric(x$lpr[["lower"]])[1], digits),
+    Upper = round(as.numeric(x$lpr[["upper"]])[1], digits),
     check.names = FALSE
   )
+
   cat(format(lpr_df, row.names = FALSE), sep = "\n")
 
   # Inputs

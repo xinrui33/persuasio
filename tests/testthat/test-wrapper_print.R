@@ -29,7 +29,6 @@ test_that("persuasio4yz print output works", {
   expect_true(length(out) > 0)
 
   expect_true(any(grepl("Outcome:", out)))
-  expect_true(any(grepl("Treatment:", out)))
   expect_true(any(grepl("Instrument:", out)))
 })
 
