@@ -22,10 +22,11 @@ print.persuasio4ytz <- function(x, digits = 4, ...) {
   cat("\nEstimates:\n")
 
   out <- data.frame(
-    `Lower Bound` = round(x$lb_coef, digits),
-    `Upper Bound` = round(x$ub_coef, digits),
-    `CI Lower` = round(x$ci_lb, digits),
-    `CI Upper` = round(x$ci_ub, digits)
+    `Lower Bound` = round(as.numeric(x$lb_coef), digits),
+    `Upper Bound` = round(as.numeric(x$ub_coef), digits),
+    `CI Lower` = round(as.numeric(x$ci_lb), digits),
+    `CI Upper` = round(as.numeric(x$ci_ub), digits),
+    check.names = FALSE
   )
 
   cat(format(out, row.names = FALSE), sep = "\n")

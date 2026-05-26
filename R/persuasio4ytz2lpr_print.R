@@ -22,9 +22,10 @@ print.persuasio4ytz2lpr <- function(x, digits = 4, ...) {
   cat("\nEstimates:\n")
 
   out <- data.frame(
-    `LPR` = round(x$lpr, digits),
-    `CI Lower` = round(x$ci_lb, digits),
-    `CI Upper` = round(x$ci_ub, digits)
+    `LPR` = round(as.numeric(x$lpr), digits),
+    `CI Lower` = round(as.numeric(x$ci_lb), digits),
+    `CI Upper` = round(as.numeric(x$ci_ub), digits),
+    check.names = FALSE
   )
 
   cat(format(out, row.names = FALSE), sep = "\n")
