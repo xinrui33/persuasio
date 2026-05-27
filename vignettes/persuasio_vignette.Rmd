@@ -94,7 +94,7 @@ library(persuasio)
 
 We load the data set included in the \pkg{persuasio} package to demonstrate the functions.
 
-```{r}
+```{r, error = TRUE}
 load("data/GKB.rda")
 ```
 
@@ -128,7 +128,7 @@ required and should be omitted.
 
 **Example 1: Average persuasion rate (APR)**
 
-```{r}
+```{r, error = TRUE}
 persuasio(
   est     = "apr",
   varlist = c("voteddem_all", "readsome", "post"),
@@ -143,7 +143,7 @@ the APR with asymptotic normal confidence intervals at the 80% level.
 
 **Example 2: Local persuasion rate (LPR)**
 
-```{r}
+```{r, error = TRUE}
 persuasio(
   est     = "lpr",
   varlist = c("voteddem_all", "readsome", "post"),
@@ -158,7 +158,7 @@ returns standard errors and confidence intervals assuming asymptotic normality.
 
 **Example 3: Outcome-instrument bounds with covariate and bootstrap**
 
-```{r}
+```{r, error = TRUE}
 persuasio(
   est     = "yz",
   varlist = c("voteddem_all", "readsome", "post", "MZwave2"),
@@ -209,7 +209,7 @@ The function requires:
 
 Since `calc4persuasio` works on summary statistics, we first compute the group means manually:
 
-```{r}
+```{r, error = TRUE}
 voteddem_all_0 <- mean(GKB$voteddem_all[GKB$post == 0], na.rm = TRUE)
 voteddem_all_1 <- mean(GKB$voteddem_all[GKB$post == 1], na.rm = TRUE)
 
@@ -219,7 +219,7 @@ readsome_1 <- mean(GKB$readsome[GKB$post == 1], na.rm = TRUE)
 
 Then pass them to `calc4persuasio`:
 
-```{r}
+```{r, error = TRUE}
 calc4persuasio(
   y1 = voteddem_all_1,
   y0 = voteddem_all_0,
@@ -244,7 +244,7 @@ The function requires:
 #### Examples using the GKB dataset
 **Example 1: No covariates**
 
-```{r}
+```{r, error = TRUE}
 aprlb(data = GKB, y = "voteddem_all", z = "post")
 ```
 
@@ -253,7 +253,7 @@ covariates, returning a coefficient, standard error, and 95% CI.
 
 **Example 2: With a covariate**
 
-```{r}
+```{r, error = TRUE}
 aprlb(data = GKB, y = "voteddem_all", z = "post", x = "MZwave2")
 ```
 
@@ -262,7 +262,7 @@ With covariates, the function fits two separate models on the `z =
 
 **Example 3: By subgroup**
 
-```{r}
+```{r, error = TRUE}
 gkb_groups <- split(GKB, GKB$MZwave2)
 lapply(gkb_groups, function(sub_data) {
   aprlb(data = sub_data, y = "voteddem_all", z = "post")
@@ -290,7 +290,7 @@ The function requires:
 #### Examples using the GKB dataset
 **Example 1: No covariates**
 
-```{r}
+```{r, error = TRUE}
 aprub(data = GKB, y = "voteddem_all", t = "readsome", z = "post")
 ```
 
@@ -299,7 +299,7 @@ data and returns a coefficient, standard error, and 95% confidence interval.
 
 **Example 2: With a covariate**
 
-```{r}
+```{r, error = TRUE}
 aprub(data = GKB, y = "voteddem_all", t = "readsome", z = "post", x = "MZwave2")
 ```
 
@@ -308,7 +308,7 @@ subgroups. Standard errors are not available in this case.
 
 **Example 3: By subgroup**
 
-```{r}
+```{r, error = TRUE}
 gkb_groups <- split(GKB, GKB$MZwave2)
 lapply(gkb_groups, function(sub_data) {
   aprub(data = sub_data, y = "voteddem_all", t = "readsome", z = "post")
@@ -336,7 +336,7 @@ The function requires:
 #### Examples using the GKB dataset
 **Example 1: No covariates**
 
-```{r}
+```{r, error = TRUE}
 lpr4ytz(
   data = GKB,
   y    = "voteddem_all",
@@ -350,7 +350,7 @@ error and 95% confidence interval.
 
 **Example 2: With a covariate, interaction model**
 
-```{r}
+```{r, error = TRUE}
 lpr4ytz(
   data = GKB,
   y    = "voteddem_all",
@@ -366,7 +366,7 @@ instrument groups. Standard errors are not available in this case.
 
 **Example 3: With a covariate, no-interaction model**
 
-```{r}
+```{r, error = TRUE}
 lpr4ytz(
   data  = GKB,
   y     = "voteddem_all",
@@ -415,7 +415,7 @@ bootstrap resampling.
 #### Examples using the GKB dataset
 **Example 1: No covariates, asymptotic normal approximation**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz(
   data   = GKB,
   y      = "voteddem_all",
@@ -431,7 +431,7 @@ and analytic standard errors are available from both `aprlb` and `aprub`.
 
 **Example 2: No covariates, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz(
   data   = GKB,
   y      = "voteddem_all",
@@ -450,7 +450,7 @@ Note that the default `nboot = 50` is suitable only for quick checks. Use larger
 
 **Example 3: With covariate, interaction model, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz(
   data   = GKB,
   y      = "voteddem_all",
@@ -504,7 +504,7 @@ When covariates are present, `lpr4ytz` returns `se = NA` and `method =
 #### Examples using the GKB dataset
 **Example 1: No covariates, normal inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz2lpr(
   data   = GKB,
   y      = "voteddem_all",
@@ -521,7 +521,7 @@ option and appropriate for large samples without covariates.
 
 **Example 2: No covariates, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz2lpr(
   data   = GKB,
   y      = "voteddem_all",
@@ -540,7 +540,7 @@ larger `nboot` for more precise inference.
 
 **Example 3: With covariate, interaction model, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4ytz2lpr(
   data   = GKB,
   y      = "voteddem_all",
@@ -598,7 +598,7 @@ relationship between instrument and outcome alone.
 #### Examples using the GKB dataset
 **Example 1: No covariates, normal inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4yz(
   data   = GKB,
   y      = "voteddem_all",
@@ -613,7 +613,7 @@ and `aprub`, and the Stoye (2009) normal approximation is feasible.
 
 **Example 2: No covariates, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4yz(
   data   = GKB,
   y      = "voteddem_all",
@@ -631,7 +631,7 @@ inference.
 
 **Example 3: With covariate, interaction model, bootstrap inference**
 
-```{r}
+```{r, error = TRUE}
 persuasio4yz(
   data   = GKB,
   y      = "voteddem_all",
