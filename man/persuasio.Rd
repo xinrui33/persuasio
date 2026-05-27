@@ -100,7 +100,7 @@ persuasio(
 \references{
 Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
 Persuasion. \emph{Journal of Political Economy}, 131(8).
-\doi{10.1086/724114}
+\url{doi:10.1086/724114}
 }
 \seealso{
 \code{\link{aprlb}}, \code{\link{aprub}}, \code{\link{lpr4ytz}},

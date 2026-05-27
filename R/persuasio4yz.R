@@ -55,13 +55,10 @@
 #' interval from empirical quantiles of jointly resampled lower and upper bound
 #' estimates. Set \code{seed} for reproducible results.
 #'
-#' @references
-#' Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
-#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
-#'   \doi{10.1086/724114}
+#' @references Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. _Journal of Political Economy_, 131(8).
+#'   <doi:10.1086/724114>
 #'
-#' Stoye, J. (2009). More on Confidence Intervals for Partially Identified
-#'   Parameters. \emph{Econometrica}, 77(4), 1299--1315.
 #'
 #' @seealso \code{\link{aprlb}}, \code{\link{aprub}},
 #'   \code{\link{persuasio4ytz}}, \code{\link{persuasio}}
