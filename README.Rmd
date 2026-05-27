@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # persuasio
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/persuasio)](https://CRAN.R-project.org/package=persuasio)
 <!-- badges: end -->
 
 `persuasio` estimates and bounds persuasion effects in instrumental variable
