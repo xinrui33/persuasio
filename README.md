@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/persuasio)](https://CRAN.R-project.org/package=persuasio)
 <!-- badges: end -->
 
 `persuasio` estimates and bounds persuasion effects in instrumental
@@ -76,7 +74,7 @@ persuasio(
 #> 
 #> Estimates:
 #>     LPR CI Lower CI Upper
-#>  0.8067  -0.0317   1.9161
+#>  0.8067   0.0409   1.8671
 #> 
 #> Confidence level: 80%
 #> Bootstrap replications: 1000
