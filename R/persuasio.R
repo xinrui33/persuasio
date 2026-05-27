@@ -1,10 +1,15 @@
-#' Interface for causal inference on persuasion effects
+#' @title Unified Interface for Causal Inference on Persuasion Effects
 #'
-#' Main wrapper for the \code{persuasio} package. This function provides a unified
-#' entry point to persuasion effect estimators.
+#' @description Main wrapper for the \pkg{persuasio} package. Provides a
+#'   unified entry point to all persuasion effect estimators. The function
+#'   parses inputs, optionally subsets the data, and dispatches to the
+#'   appropriate estimator based on \code{est}.
 #'
-#' The function does not perform estimation directly. Instead, it parses inputs,
-#' optionally subsets the data, and dispatches to the appropriate estimator.
+#'   Variables in \code{varlist} must be supplied in order:
+#'   \code{c(y, t, z, x, ...)} where \code{y} is the binary outcome,
+#'   \code{t} is the binary treatment, \code{z} is the binary instrument,
+#'   and \code{x} are optional covariates. For \code{est = "yz"} and
+#'   \code{est = "calc"}, \code{t} is optional.
 #'
 #' @param est character. Estimator type:
 #' \itemize{
@@ -42,6 +47,45 @@
 #'   \item optional subsetting
 #'   \item method dispatch
 #' }
+#'
+#'
+#' @references Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#' @seealso \code{\link{aprlb}}, \code{\link{aprub}}, \code{\link{lpr4ytz}},
+#'   \code{\link{calc4persuasio}}
+#'
+#' @examples
+#' # Example 1: Average persuasion rate (APR) with normal inference
+#' persuasio(
+#'   est     = "apr",
+#'   varlist = c("voteddem_all", "readsome", "post"),
+#'   data    = GKB,
+#'   level   = 0.80,
+#'   method  = "normal"
+#' )
+#'
+#' # Example 2: Local persuasion rate (LPR) with normal inference
+#' persuasio(
+#'   est     = "lpr",
+#'   varlist = c("voteddem_all", "readsome", "post"),
+#'   data    = GKB,
+#'   level   = 0.80,
+#'   method  = "normal"
+#' )
+#'
+#' # Example 3: Outcome-instrument bounds with covariate and bootstrap inference
+#' persuasio(
+#'   est     = "yz",
+#'   varlist = c("voteddem_all", "readsome", "post", "MZwave2"),
+#'   data    = GKB,
+#'   level   = 0.80,
+#'   model   = "interaction",
+#'   method  = "bootstrap",
+#'   nboot   = 1000
+#' )
+#'
 #'
 #' @export
 persuasio <- function(est = c("apr", "lpr", "yz", "calc"),

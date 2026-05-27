@@ -4,10 +4,8 @@
 #' @param ... unused
 #' @export
 print.aprlb <- function(x, digits = 4, ...) {
-
   cat("\n")
   cat("aprlb: Lower Bound of Average Persuasion Rate\n\n")
-
   cat("Outcome:    ", x$outcome, "\n", sep = "")
   cat("Instrument: ", x$instrument, "\n", sep = "")
   if (!is.null(x$covariates)) {
@@ -18,7 +16,6 @@ print.aprlb <- function(x, digits = 4, ...) {
   cat("Model:        ", x$model, "\n", sep = "")
   cat("Observations: ", x$n, "\n", sep = "")
   cat("\n")
-
   cat("Estimates:\n")
   out <- data.frame(
     Estimate       = round(as.numeric(x$lb_coef), digits),
@@ -27,15 +24,9 @@ print.aprlb <- function(x, digits = 4, ...) {
     `95% CI Upper` = round(as.numeric(x$ci_ub), digits),
     check.names = FALSE
   )
-
   print(out, row.names = FALSE)
 
-  if (is.null(x$lb_se) || length(x$lb_se) == 0 || all(is.na(x$lb_se))) {
-    cat("\nStandard errors not available for this specification.\n")
-  }
   cat("\n")
-
   cat("Note: It is recommended to use the 'persuasio' command.\n")
-
   invisible(x)
 }

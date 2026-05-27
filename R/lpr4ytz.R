@@ -1,10 +1,12 @@
 #' Estimate the local persuasion rate
 #'
-#' __lpr4ytz__ estimates the local persuasion rate (LPR). _veclist_ should
-#' include _depvar_ _treatrvar_ _instrvar_ _covariates_ in order. Here, _depvar_
-#' is binary outcomes (_y_), _treatrvar_ is binary treatments (_t_), _instrvar_
-#' is binary instruments (_z_), and _covariates_ (_x_) are optional. There are
-#' two cases: (i) _covariates_ are absent and (ii) _covariates_ are present.
+#' @description Estimates the local persuasion rate (LPR) for compliers. Requires a
+#'   binary outcome \code{y}, a binary treatment \code{t}, and a binary
+#'   instrument \code{z}. Covariates \code{x} are optional. When covariates
+#'   are absent, the function returns standard errors and confidence intervals. When
+#'   covariates are present, separate models are fit on the \code{z = 1} and
+#'   \code{z = 0} subgroups; standard errors are not available in this case
+#'   unless \code{model = "no_interaction"} is specified.
 #'
 #' @param data data.frame
 #' @param y outcome variable (binary)
@@ -28,6 +30,41 @@
 #'   \item \code{case}: Estimation case used ("interaction" or "no_interaction")
 #'   \item \code{class}: S3 class label ("lpr4ytz")
 #' }
+#'
+#'
+#' @references Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#'
+#' @examples
+#' # Example 1: No covariates
+#' lpr4ytz(
+#'   data = GKB,
+#'   y    = "voteddem_all",
+#'   t    = "readsome",
+#'   z    = "post"
+#' )
+#'
+#' # Example 2: With covariate (interaction model, default)
+#' lpr4ytz(
+#'   data  = GKB,
+#'   y     = "voteddem_all",
+#'   t     = "readsome",
+#'   z     = "post",
+#'   x     = "MZwave2"
+#' )
+#'
+#' # Example 3: With covariate (no-interaction model)
+#' lpr4ytz(
+#'   data  = GKB,
+#'   y     = "voteddem_all",
+#'   t     = "readsome",
+#'   z     = "post",
+#'   x     = "MZwave2",
+#'   model = "no_interaction"
+#' )
+#'
 #'
 #' @export
 lpr4ytz <- function(data, y, t, z, x = NULL, model = "no_interaction") {

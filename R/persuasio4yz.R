@@ -1,10 +1,19 @@
-#' Conduct causal inference on persuasive effects for binary outcomes _y_ and
-#' binary instruments _z_
+#' @title Causal Inference on Persuasion Effects Using Outcome and Instrument Only
 #'
-#' Computes bounds for the Average Persuasion Rate using the YZ formulation,
-#' combining lower and upper bound estimators (\code{aprlb} and \code{aprub})
-#' with inference via either normal approximation or bootstrap.
+#' @description Estimates bounds on the Average Persuasion Rate (APR) using only
+#'   a binary outcome \code{y} and a binary instrument \code{z}. Combines lower
+#'   and upper bound estimation via \code{\link{aprlb}} and \code{\link{aprub}}
+#'   under the YZ formulation with inference using either a Stoye (2009)-style
+#'   normal approximation or bootstrap resampling.
 #'
+#'   This function is appropriate when treatment variables are unavailable
+#'   or when the researcher wishes to bound the APR using only the
+#'   reduced-form relationship between the instrument and the outcome. When
+#'   treatment data are available, use \code{\link{persuasio4ytz}} instead.
+#'
+#'   When covariates are absent, both inference methods are available. When
+#'   covariates are present, analytic standard errors are unavailable and
+#'   \code{method = "bootstrap"} is required.
 #'
 #' @param data data.frame containing variables
 #' @param y character, outcome variable name (binary 0/1)
@@ -36,15 +45,58 @@
 #'   \item{title}{optional title}
 #' }
 #'
-#' @details When \code{method = "normal"}, confidence intervals are constructed
-#' using a Stoye-style correction that accounts for dependence between lower and
-#' upper bounds.
+#' @details
+#' When \code{method = "normal"}, the function applies a Stoye (2009)-style
+#' correction. If either standard errors from \code{\link{aprlb}} or
+#' \code{\link{aprub}} is \code{NA} (which occurs when covariates are present),
+#' use \code{method = "bootstrap"} instead.
 #'
-#' When \code{method = "bootstrap"}, inference is based on joint resampling of
-#' lower and upper bound estimators.
+#' When \code{method = "bootstrap"}, the function constructs the confidence
+#' interval from empirical quantiles of jointly resampled lower and upper bound
+#' estimates. Set \code{seed} for reproducible results.
 #'
-#' If either bound has missing standard errors, the bootstrap method is
-#' recommended.
+#' @references
+#' Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#' Stoye, J. (2009). More on Confidence Intervals for Partially Identified
+#'   Parameters. \emph{Econometrica}, 77(4), 1299--1315.
+#'
+#' @seealso \code{\link{aprlb}}, \code{\link{aprub}},
+#'   \code{\link{persuasio4ytz}}, \code{\link{persuasio}}
+#'
+#' @examples
+#' # Example 1: No covariates, normal inference
+#' persuasio4yz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   z      = "post",
+#'   method = "normal",
+#'   level  = 0.80
+#' )
+#'
+#' # Example 2: No covariates, bootstrap inference
+#' persuasio4yz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   z      = "post",
+#'   method = "bootstrap",
+#'   level  = 0.80,
+#'   nboot  = 1000
+#' )
+#'
+#' # Example 3: With covariate, interaction model, bootstrap inference
+#' persuasio4yz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   z      = "post",
+#'   x      = "MZwave2",
+#'   model  = "interaction",
+#'   method = "bootstrap",
+#'   level  = 0.80,
+#'   nboot  = 1000
+#' )
 #'
 #' @export
 persuasio4yz <- function(data, y, z, x = NULL,

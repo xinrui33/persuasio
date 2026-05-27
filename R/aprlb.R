@@ -1,15 +1,11 @@
 #' Estimate the lower bound of the average persuasion rate
 #'
-#' __aprlb__ estimates the lower bound of the average persuasion rate (APR).
-#' _veclist_ should include _depvar_ _instrvar_ _covariates_ in order. Here,
-#' _depvar_ is binary outcomes (_y_), _instrvar_ is binary instruments (_z_),
-#' and _covariates_ (_x_) are optional.
-#'
-#' There are two cases: (i) _covariates_ are absent and (ii) _covariates_ are
-#' present.
-#'
-#' With covariates, there are two model specifications: `no_interaction`and
-#' `interaction`.
+#' @description Estimates the lower bound on the average persuasion rate (APR)
+#'   following Jun and Lee (2023). Requires a binary outcome and a binary
+#'   instrument. Covariates may optionally be supplied, in which case separate
+#'   models are fit on the z = 1 and z = 0 subgroups and standard errors are not
+#'   available. With covariates, there are two model specifications:
+#'   `no_interaction`and `interaction`.
 #'
 #'
 #' @param data data.frame containing variables
@@ -32,6 +28,26 @@
 #'   \item \code{n}: Sample size
 #'   \item \code{class}: S3 class label ("aprlb")
 #' }
+#'
+#'
+#' @references Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#'
+#' @examples
+#' # Example 1: No covariates
+#' aprlb(data = GKB, y = "voteddem_all", z = "post")
+#'
+#' # Example 2: With covariate
+#' aprlb(data = GKB, y = "voteddem_all", z = "post", x = "MZwave2")
+#'
+#' # Example 3: Estimate by the covariate
+#' gkb_groups <- split(GKB, GKB$MZwave2)
+#' lapply(gkb_groups, function(sub_data) {
+#'   aprlb(data = sub_data, y = "voteddem_all", z = "post")
+#' })
+#'
 #'
 #' @export
 aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
@@ -128,14 +144,10 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
     if (model == "no_interaction") {
 
-      fmla <- as.formula(
-        paste(y, "~", z, "+", x_formula)
-      )
+      fmla <- as.formula(paste(y, "~", z, "+", x_formula))
 
       fit <- lm(fmla, data = data)
-
       yhat <- predict(fit)
-
       beta_z <- coef(fit)[z]
 
       yhat1 <- yhat + beta_z * (1 - z_vec)
@@ -144,9 +156,7 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
 
     if (model == "interaction") {
 
-      fmla <- as.formula(
-        paste(y, "~", x_formula)
-      )
+      fmla <- as.formula(paste(y, "~", x_formula))
 
       fit1 <- lm(fmla, data = data[z_vec == 1, ])
       fit0 <- lm(fmla, data = data[z_vec == 0, ])
@@ -162,7 +172,6 @@ aprlb <- function(data, y, z, x = NULL, model = "no_interaction") {
     # lower bound
     lb_num <- mean(yhat1 - yhat0)
     lb_den <- mean(1 - yhat0)
-
     lb_coef <- lb_num / lb_den
 
     res <- list(

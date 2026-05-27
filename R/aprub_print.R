@@ -30,11 +30,6 @@ print.aprub <- function(x, digits = 4, ...) {
 
   print(out, row.names = FALSE)
 
-  if (is.null(x$lb_se) || length(x$lb_se) == 0 || all(is.na(x$lb_se))) {
-    cat("\nStandard errors not available for this specification.\n")
-  }
-  cat("\n")
-
   cat("Note: It is recommended to use the 'persuasio' command.\n")
 
   invisible(x)

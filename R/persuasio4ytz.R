@@ -1,8 +1,15 @@
-#' Conduct causal inference on persuasion effects for binary outcomes _y_,
-#' binary treatments _t_ and binary instruments _z_
+#' @title Causal Inference on the Average Persuasion Rate
 #'
-#' Estimates the Average Persuasion Rate (APR) and constructs confidence
-#' intervals using either asymptotic normal approximation or bootstrap methods.
+#' @description Estimates the Average Persuasion Rate (APR) and constructs
+#'   confidence intervals for binary outcome \code{y}, binary treatment
+#'   \code{t}, and binary instrument \code{z}. Combines lower and upper bound
+#'   estimation via \code{\link{aprlb}} and \code{\link{aprub}} with inference
+#'   using either a Stoye (2009)-style asymptotic normal approximation or
+#'   bootstrap resampling.
+#'
+#'   When covariates are absent, both inference methods are available. When
+#'   covariates are present, \code{method = "bootstrap"} is recommended as
+#'   standard errors are not available analytically.
 #'
 #' This function combines:
 #' \itemize{
@@ -42,12 +49,61 @@
 #'   \item{title}{optional title}
 #' }
 #'
-#' @details If \code{method = "normal"}, the function uses a Stoye (2009)-style
-#' correction for partially identified parameters. Standard errors must be
-#' available from both \code{aprlb()} and \code{aprub()}.
+#' @details When \code{method = "normal"}, the function uses a Stoye
+#' (2009)-style correction for partially identified parameters. Standard errors
+#' from both \code{\link{aprlb}} and \code{\link{aprub}} are available only when
+#' there are no covariates.
 #'
-#' If \code{method = "bootstrap"}, inference is based on empirical quantiles
-#' from resampled estimates.
+#' When \code{method = "bootstrap"}, the function constructs confidence
+#' intervals from empirical quantiles of bootstrap replicates of the bound
+#' estimates. This is the recommended approach when covariates are present or
+#' when the sample size is small.
+#'
+#' @references
+#' Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#' Stoye, J. (2009). More on Confidence Intervals for Partially Identified
+#'   Parameters. \emph{Econometrica}, 77(4), 1299--1315.
+#'
+#' @seealso \code{\link{aprlb}}, \code{\link{aprub}}, \code{\link{lpr4ytz}},
+#'   \code{\link{persuasio}}
+#'
+#' @examples
+#' # Example 1: No covariates, normal inference
+#' persuasio4ytz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   t      = "readsome",
+#'   z      = "post",
+#'   method = "normal",
+#'   level  = 0.80
+#' )
+#'
+#' # Example 2: No covariates, bootstrap inference
+#' persuasio4ytz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   t      = "readsome",
+#'   z      = "post",
+#'   method = "bootstrap",
+#'   level  = 0.80,
+#'   nboot  = 1000
+#' )
+#'
+#' # Example 3: With covariate, interaction model, bootstrap inference
+#' persuasio4ytz(
+#'   data   = GKB,
+#'   y      = "voteddem_all",
+#'   t      = "readsome",
+#'   z      = "post",
+#'   x      = "MZwave2",
+#'   model  = "interaction",
+#'   method = "bootstrap",
+#'   level  = 0.80,
+#'   nboot  = 1000
+#' )
 #'
 #' @export
 persuasio4ytz <- function(data, y, t, z, x = NULL,

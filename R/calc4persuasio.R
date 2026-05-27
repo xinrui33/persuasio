@@ -21,6 +21,27 @@
 #'   vector: lower and upper bound} \item{inputs}{input values} \item{case}{case
 #'   identifier}
 #'
+#' @references Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+#'   Persuasion. \emph{Journal of Political Economy}, 131(8).
+#'   \doi{10.1086/724114}
+#'
+#'
+#' @examples
+#' # Compute group means from the GKB dataset first
+#' voteddem_all_0 <- mean(GKB$voteddem_all[GKB$post == 0], na.rm = TRUE)
+#' voteddem_all_1 <- mean(GKB$voteddem_all[GKB$post == 1], na.rm = TRUE)
+#'
+#' readsome_0 <- mean(GKB$readsome[GKB$post == 0], na.rm = TRUE)
+#' readsome_1 <- mean(GKB$readsome[GKB$post == 1], na.rm = TRUE)
+#'
+#' # Estimate bounds from summary statistics
+#' calc4persuasio(
+#'   y1 = voteddem_all_1,
+#'   y0 = voteddem_all_0,
+#'   e1 = readsome_1,
+#'   e0 = readsome_0
+#' )
+#'
 #' @export
 
 calc4persuasio <- function(y1, y0, e1 = NULL, e0 = NULL) {
