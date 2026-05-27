@@ -33,15 +33,30 @@ A list with:
 }
 }
 \description{
-\strong{aprlb} estimates the lower bound of the average persuasion rate (APR).
-\emph{veclist} should include \emph{depvar} \emph{instrvar} \emph{covariates} in order. Here,
-\emph{depvar} is binary outcomes (\emph{y}), \emph{instrvar} is binary instruments (\emph{z}),
-and \emph{covariates} (\emph{x}) are optional.
+Estimates the lower bound on the average persuasion rate (APR)
+following Jun and Lee (2023). Requires a binary outcome and a binary
+instrument. Covariates may optionally be supplied, in which case separate
+models are fit on the z = 1 and z = 0 subgroups and standard errors are not
+available. With covariates, there are two model specifications:
+\code{no_interaction}and \code{interaction}.
 }
-\details{
-There are two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are
-present.
+\examples{
+# Example 1: No covariates
+aprlb(data = GKB, y = "voteddem_all", z = "post")
 
-With covariates, there are two model specifications: \code{no_interaction}and
-\code{interaction}.
+# Example 2: With covariate
+aprlb(data = GKB, y = "voteddem_all", z = "post", x = "MZwave2")
+
+# Example 3: Estimate by the covariate
+gkb_groups <- split(GKB, GKB$MZwave2)
+lapply(gkb_groups, function(sub_data) {
+  aprlb(data = sub_data, y = "voteddem_all", z = "post")
+})
+
+
+}
+\references{
+Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+Persuasion. \emph{Journal of Political Economy}, 131(8).
+\doi{10.1086/724114}
 }

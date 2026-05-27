@@ -36,16 +36,30 @@ A list with:
 }
 }
 \description{
-\strong{aprub} estimates the upper bound on the average persuasion rate (APR).
-\emph{veclist} should include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in
-order. Here, \emph{depvar} is binary outcomes (\emph{y}), \emph{treatrvar} is binary
-treatment (\emph{t}), \emph{instrvar} is binary instruments (\emph{z}), and \emph{covariates}
-(\emph{x}) are optional.
+Estimates the upper bound on the average persuasion rate (APR)
+following Jun and Lee (2023). Requires a binary outcome, a binary
+treatment, and a binary instrument. Covariates may optionally be supplied,
+in which case separate models are fit on the z = 1 and z = 0 subgroups and
+standard errors are not available. With covariates, there are two model
+specifications: \code{no_interaction}and \code{interaction}.
 }
-\details{
-There are two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are
-present.
+\examples{
+# Example 1: No covariates
+aprub(data = GKB, y = "voteddem_all", t = "readsome", z = "post")
 
-With covariates, there are two model specifications: \code{no_interaction}and
-\code{interaction}.
+# Example 2: With covariate
+aprub(data = GKB, y = "voteddem_all", t = "readsome", z = "post", x = "MZwave2")
+
+# Example 3: Estimate by the covariate
+gkb_groups <- split(GKB, GKB$MZwave2)
+lapply(gkb_groups, function(sub_data) {
+  aprub(data = sub_data, y = "voteddem_all", t = "readsome", z = "post")
+})
+
+
+}
+\references{
+Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+Persuasion. \emph{Journal of Political Economy}, 131(8).
+\doi{10.1086/724114}
 }

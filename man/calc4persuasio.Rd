@@ -33,3 +33,25 @@ The outputs of this command are the lower and upper bounds on the average
 persuasion rate (APR) as well as the lower and upper bounds on the local
 persuasion rate (LPR).
 }
+\examples{
+# Compute group means from the GKB dataset first
+voteddem_all_0 <- mean(GKB$voteddem_all[GKB$post == 0], na.rm = TRUE)
+voteddem_all_1 <- mean(GKB$voteddem_all[GKB$post == 1], na.rm = TRUE)
+
+readsome_0 <- mean(GKB$readsome[GKB$post == 0], na.rm = TRUE)
+readsome_1 <- mean(GKB$readsome[GKB$post == 1], na.rm = TRUE)
+
+# Estimate bounds from summary statistics
+calc4persuasio(
+  y1 = voteddem_all_1,
+  y0 = voteddem_all_0,
+  e1 = readsome_1,
+  e0 = readsome_0
+)
+
+}
+\references{
+Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+Persuasion. \emph{Journal of Political Economy}, 131(8).
+\doi{10.1086/724114}
+}

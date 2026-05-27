@@ -2,8 +2,7 @@
 % Please edit documentation in R/persuasio4ytz2lpr.R
 \name{persuasio4ytz2lpr}
 \alias{persuasio4ytz2lpr}
-\title{Conduct causal inference on the local persuasion rate for binary outcomes
-\emph{y}, binary treatments \emph{t} and binary instruments \emph{z}}
+\title{Causal Inference on the Local Persuasion Rate}
 \usage{
 persuasio4ytz2lpr(
   data,
@@ -63,20 +62,77 @@ An object of class \code{persuasio4ytz2lpr} containing:
 }
 }
 \description{
-Computes the Local Persuasion Rate (LPR) and constructs confidence intervals
-using either asymptotic normal approximation or bootstrap methods.
+Estimates the Local Persuasion Rate (LPR) and constructs
+confidence intervals for binary outcome \code{y}, binary treatment
+\code{t}, and binary instrument \code{z}. Wraps \code{\link{lpr4ytz}}
+for point estimation and performs inference using either a standard
+normal approximation or bootstrap resampling.
+
+The LPR measures the persuasion effect among compliers — those whose
+treatment status is switched by the instrument. Unlike the APR (see
+\code{\link{persuasio4ytz}}), the LPR is a point-identified quantity
+under the assumptions of Jun and Lee (2023), so a single confidence
+interval rather than a bound interval is returned.
+
+When covariates are absent and \code{method = "normal"}, a delta-method
+standard error from \code{\link{lpr4ytz}} is used. When covariates are
+present, analytic standard errors are unavailable and
+\code{method = "bootstrap"} is required.
 }
 \details{
-This wrapper calls \code{lpr4ytz()} for point estimation and then performs
-inference based on the selected method.
+When \code{method = "normal"}, the confidence interval is constructed as
+\deqn{\hat{\theta}_{LPR} \pm z_{\alpha/2} \cdot \widehat{se}}
+where \eqn{\widehat{se}} is the delta-method standard error returned by
+\code{\link{lpr4ytz}}. This requires \code{se} to be non-missing; if
+\code{se = NA} (which occurs when covariates are present), the normal
+method is not available and \code{method = "bootstrap"} must be used.
 
-For \code{method = "normal"}, the confidence interval is based on a
-standard normal approximation using the delta-method standard error from
-\code{lpr4ytz()}.
+When \code{method = "bootstrap"}, the confidence interval is constructed
+from empirical quantiles of bootstrap replications of the LPR estimate.
+Set \code{seed} for reproducible results.
+}
+\examples{
+# Example 1: No covariates, normal inference
+persuasio4ytz2lpr(
+  data   = GKB,
+  y      = "voteddem_all",
+  t      = "readsome",
+  z      = "post",
+  method = "normal",
+  level  = 0.80
+)
 
-For \code{method = "bootstrap"}, the interval is computed using empirical
-quantiles of bootstrap replications.
+# Example 2: No covariates, bootstrap inference
+persuasio4ytz2lpr(
+  data   = GKB,
+  y      = "voteddem_all",
+  t      = "readsome",
+  z      = "post",
+  method = "bootstrap",
+  level  = 0.80,
+  nboot  = 1000
+)
 
-When \code{se = NA}, the normal approximation is not available and the
-bootstrap method should be used.
+# Example 3: With covariate, interaction model, bootstrap inference
+persuasio4ytz2lpr(
+  data   = GKB,
+  y      = "voteddem_all",
+  t      = "readsome",
+  z      = "post",
+  x      = "MZwave2",
+  model  = "interaction",
+  method = "bootstrap",
+  level  = 0.80,
+  nboot  = 1000
+)
+
+}
+\references{
+Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+Persuasion. \emph{Journal of Political Economy}, 131(8).
+\doi{10.1086/724114}
+}
+\seealso{
+\code{\link{lpr4ytz}}, \code{\link{persuasio4ytz}},
+\code{\link{persuasio}}
 }

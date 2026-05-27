@@ -37,9 +37,46 @@ A list with:
 }
 }
 \description{
-\strong{lpr4ytz} estimates the local persuasion rate (LPR). \emph{veclist} should
-include \emph{depvar} \emph{treatrvar} \emph{instrvar} \emph{covariates} in order. Here, \emph{depvar}
-is binary outcomes (\emph{y}), \emph{treatrvar} is binary treatments (\emph{t}), \emph{instrvar}
-is binary instruments (\emph{z}), and \emph{covariates} (\emph{x}) are optional. There are
-two cases: (i) \emph{covariates} are absent and (ii) \emph{covariates} are present.
+Estimates the local persuasion rate (LPR) for compliers. Requires a
+binary outcome \code{y}, a binary treatment \code{t}, and a binary
+instrument \code{z}. Covariates \code{x} are optional. When covariates
+are absent, the function returns standard errors and confidence intervals. When
+covariates are present, separate models are fit on the \code{z = 1} and
+\code{z = 0} subgroups; standard errors are not available in this case
+unless \code{model = "no_interaction"} is specified.
+}
+\examples{
+# Example 1: No covariates
+lpr4ytz(
+  data = GKB,
+  y    = "voteddem_all",
+  t    = "readsome",
+  z    = "post"
+)
+
+# Example 2: With covariate (interaction model, default)
+lpr4ytz(
+  data  = GKB,
+  y     = "voteddem_all",
+  t     = "readsome",
+  z     = "post",
+  x     = "MZwave2"
+)
+
+# Example 3: With covariate (no-interaction model)
+lpr4ytz(
+  data  = GKB,
+  y     = "voteddem_all",
+  t     = "readsome",
+  z     = "post",
+  x     = "MZwave2",
+  model = "no_interaction"
+)
+
+
+}
+\references{
+Sung Jae Jun and Sokbae Lee (2023). Identifying the Effect of
+Persuasion. \emph{Journal of Political Economy}, 131(8).
+\doi{10.1086/724114}
 }
