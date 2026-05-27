@@ -1,5 +1,5 @@
 Package: persuasio
-Title: R module to estimate the effect of persuasion and conduct inference
+Title: Causal Inference on Persuasion Effects
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -23,7 +23,11 @@ Authors@R:
     comment = "R implementation of the Stata package with the same name"
     )
     )
-Description: This repository contains persuasio command that estimates the effect of persuasion and conducts inference, using the estimators in Jun and Lee (2023, Journal of Political Economy, https://doi.org/10.1086/724114).
+Description: A toolkit for estimating and bounding persuasion effects in
+    instrumental variable settings with binary outcomes. You provide the
+    outcome, the treatment, and the instrument, and 'persuasio' computes
+    average and/or local persuasion rates. Based on Jun and Lee (2023)
+    <doi:10.1086/724114>.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

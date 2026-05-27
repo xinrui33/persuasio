@@ -25,12 +25,13 @@ a two-stage causal structure:
 
 $$Z_i \text{ (instrument)} \rightarrow T_i \text{ (exposure)} \rightarrow Y_i \text{ (outcome)}$$
 
-where $Z_i$ is a binary instrument (e.g. random assignment, policy eligibility), $T_i$ is actual exposure to a persuasive message (e.g. media consumption, campaign contact), and $Y_i$ is a binary behavioural outcome (e.g. voting, donating, purchasing). See DellaVigna and Gentzkow (2010) for an overview of the applied context motivating the
-estimands in this package.
-
-> Stefano DellaVigna and Matthew Gentzkow (2010). Persuasion: Empirical
-> Evidence. *Annual Review of Economics*, 2, 643--669.
-> <https://doi.org/10.1146/annurev.economics.102308.124309>
+where $Z_i$ is a binary instrument (e.g. random assignment, policy eligibility),
+$T_i$ is actual exposure to a persuasive message (e.g. media consumption,
+campaign contact), and $Y_i$ is a binary behavioural outcome (e.g. voting,
+donating, purchasing). For an overview of the empirical settings motivating
+these estimands, see DellaVigna and Gentzkow (2010, *Annual Review of
+Economics*,
+[doi:10.1146/annurev.economics.102308.124309](https://doi.org/10.1146/annurev.economics.102308.124309)).
 
 ### When is \pkg{persuasio} applicable?
 
