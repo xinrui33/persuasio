@@ -117,7 +117,7 @@ argument.
 | `level`   | Confidence level                                     | `0.95`          |
 | `model`   | `"no_interaction"` or `"interaction"`                | `"no_interaction"` |
 | `method`  | `"normal"` or `"bootstrap"`                          | `"normal"`      |
-| `nboot`   | Bootstrap replications (only when `method = "bootstrap"`) | `1000`     |
+| `nboot`   | Bootstrap replications (only when `method = "bootstrap"`) | `50`     |
 
 ### `varlist` ordering
 
