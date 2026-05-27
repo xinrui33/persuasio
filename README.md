@@ -1,63 +1,86 @@
-# persuasio
-persuasio: The R module to estimate the persuasion effect and conduct inference, using the estimators in Jun and Lee (pak::pkg_deps_tree("tibble")2023, Journal of Political Economy, https://doi.org/10.1086/724114). A Stata package with the same name is posted on the Statistical Software Components (SSC) archive.
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# persuasio
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+`persuasio` estimates and bounds persuasion effects in instrumental
+variable settings with binary outcomes. You provide the outcome, the
+treatment, and the instrument, tell `persuasio` which estimand you want
+(average or local persuasion rate), and it takes care of the bounds and
+inference. Based on Jun and Lee (2023) <https://doi.org/10.1086/724114>.
+
+## Installation
+
+You can install the development version of persuasio from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("xinrui33/persuasio")
 ```
-persuasio/
-│
-├── data
-│   └── GKB.rda
-├── DESCRIPTION
-├── LICENSE.md
-├── man
-│   ├── aprlb.Rd
-│   ├── aprub.Rd
-│   ├── calc4persuasio.Rd
-│   ├── GKB.Rd
-│   ├── lpr4ytz.Rd
-│   ├── persuasio-package.Rd
-│   ├── persuasio.Rd
-│   ├── persuasio4ytz.Rd
-│   ├── persuasio4ytz2lpr.Rd
-│   ├── persuasio4yz.Rd
-│   ├── print.aprlb.Rd
-│   ├── print.aprub.Rd
-│   ├── print.calc4persuasio.Rd
-│   ├── print.lpr4ytz.Rd
-│   ├── print.persuasio4ytz.Rd
-│   ├── print.persuasio4ytz2lpr.Rd
-│   └── print.persuasio4yz.Rd
-├── NAMESPACE
-├── persuasio.Rproj
-├── R
-│   ├── aprlb.R
-│   ├── aprlb_print.R
-│   ├── aprub.R
-│   ├── aprub_print.R
-│   ├── calc4persuasio.R
-│   ├── calc4persuasio_print.R
-│   ├── GKB.R
-│   ├── lpr4ytz.R
-│   ├── lpr4ytz_print.R
-│   ├── persuasio.R
-│   ├── persuasio4ytz.R
-│   ├── persuasio4ytz2lpr.R
-│   ├── persuasio4ytz2lpr_print.R
-│   ├── persuasio4ytz_print.R
-│   ├── persuasio4yz.R
-│   ├── persuasio4yz_print.R
-│   └── persuasio_package.R
-├── README.md
-├── tests
-│   ├── testthat
-│   │   ├── test-base.R
-│   │   ├── test-base_covariates.R
-│   │   ├── test-base_errors.R
-│   │   ├── test-base_interaction.R
-│   │   ├── test-base_print.R
-│   │   ├── test-GKB.R
-│   │   ├── test-wrapper.R
-│   │   └── test-wrapper_print.R
-│   └── testthat.R
-└── vignettes
-    └── persuasio.Rmd
+
+## Quick Example
+
+``` r
+library(persuasio)
+## basic example code
+
+# Average persuasion rate (APR): normal inference
+persuasio(
+  est     = "apr",
+  varlist = c("voteddem_all", "readsome", "post"),
+  data    = GKB,
+  level   = 0.80,
+  method  = "normal"
+)
+#> 
+#> Average persuasion rate for binary outcomes, binary treatments and binary instruments
+#> 
+#> Outcome:    voteddem_all
+#> Treatment:  readsome
+#> Instrument: post
+#> Model:      no_interaction
+#> Method:     normal
+#> Observations: 701
+#> 
+#> Estimates:
+#>  Lower Bound Upper Bound CI Lower CI Upper
+#>       0.0707      0.6343   0.0288   0.6611
+#> 
+#> Confidence level: 80%
+
+# Local persuasion rate (LPR): bootstrap inference
+persuasio(
+  est     = "lpr",
+  varlist = c("voteddem_all", "readsome", "post"),
+  data    = GKB,
+  level   = 0.80,
+  method  = "bootstrap",
+  nboot   = 1000
+)
+#> 
+#> Local persuasion rate for binary outcomes, binary treatments and binary instruments 
+#> 
+#> Outcome:    voteddem_all
+#> Treatment:  readsome
+#> Instrument: post
+#> Model:      no_interaction
+#> Method:     bootstrap
+#> Observations: 701
+#> 
+#> Estimates:
+#>     LPR CI Lower CI Upper
+#>  0.8067   0.0587   1.8941
+#> 
+#> Confidence level: 80%
+#> Bootstrap replications: 1000
 ```
+
+## Learn more
+
+See `vignette("persuasio")` for a full walkthrough including covariates,
+model specifications, and the relationship between estimands.
